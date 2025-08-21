@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="title">ماسی - مجتمع هواة الأسماك</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #34a853;
+            --dark-color: #202124;
+            --light-color: #f8f9fa;
+            --gray-color: #dadce0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1460661418053-1c7210b5e0c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 60px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--dark-color);
+            font-size: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        /* App Screenshots */
+        .screenshots {
+            padding: 60px 0;
+            background-color: #f8f9fa;
+        }
+
+        .screenshot-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .screenshot {
+            width: 250px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .screenshot:hover {
+            transform: scale(1.05);
+        }
+
+        /* Download Section */
+        .download {
+            padding: 60px 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            color: var(--primary-color);
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: var(--gray-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            border-radius: 50px;
+            padding: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 99;
+        }
+
+        .language-selector select {
+            border: none;
+            padding: 5px;
+            outline: none;
+            background: transparent;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <select id="languageSelect">
+            <option value="ar">العربية</option>
+            <option value="ku">كوردی</option>
+            <option value="en">English</option>
+        </select>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-fish"></i>
+                    <h1 data-translate="logo_text">ماسی</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" data-translate="nav_home">الرئيسية</a></li>
+                        <li><a href="#" data-translate="nav_features">الميزات</a></li>
+                        <li><a href="#" data-translate="nav_download">تحميل التطبيق</a></li>
+                        <li><a href="#" data-translate="nav_faq">الأسئلة الشائعة</a></li>
+                        <li><a href="#" data-translate="nav_contact">اتصل بنا</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" data-translate="btn_login">تسجيل الدخول</button>
+                    <button class="btn btn-primary" data-translate="btn_signup">إنشاء حساب</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 data-translate="hero_title">مجتمع هواة الأسماك في العراق وكردستان</h2>
+                <p data-translate="hero_subtitle">شارك خبرتك، استفد من تجارب الآخرين، وكن جزءًا من أكبر مجتمع لهواة تربية الأسماك</p>
+                <button class="btn btn-primary" data-translate="hero_button">ابدأ الآن</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title" data-translate="features_title">ميزات تطبيق ماسی</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <h3 data-translate="feature_1_title">مشاركة المحتوى</h3>
+                    <p data-translate="feature_1_text">شارك صور وفيديوهات أسماكك مع المجتمع، وانشر نصائحك وخبراتك</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 data-translate="feature_2_title">تفاعل اجتماعي</h3>
+                    <p data-translate="feature_2_text">تفاعل مع المنشورات عبر الإعجابات والتعليقات وشارك آرائك مع الآخرين</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3 data-translate="feature_3_title">علاج الأسماك</h3>
+                    <p data-translate="feature_3_text">احصل على نصائح علاجية لأسماكك من الخبراء والمختصين</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 data-translate="feature_4_title">إشعارات الكهرباء</h3>
+                    <p data-translate="feature_4_text">كن على علم بانقطاع التيار الكهربائي في منطقتك لحماية أحواض الأسماك</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 data-translate="feature_5_title">أسعار الأسماك</h3>
+                    <p data-translate="feature_5_text">تعرف على أسعار الأسماك اليومية في أسواق العراق وكردستان</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 data-translate="feature_6_title">خرائط المتاجر</h3>
+                    <p data-translate="feature_6_text">ابحث عن متاجر ومزارع الأسماك بالقرب منك باستخدام خرائط جوجل</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots">
+        <div class="container">
+            <h2 class="section-title" data-translate="screenshots_title">لمحات من التطبيق</h2>
+            <div class="screenshot-container">
+                <img src="https://placehold.co/250x500/1a73e8/white?text=واجهة+التطبيق" alt="واجهة التطبيق" class="screenshot">
+                <img src="https://placehold.co/250x500/34a853/white?text=منشورات+المستخدمين" alt="منشورات المستخدمين" class="screenshot">
+                <img src="https://placehold.co/250x500/1a73e8/white?text=أسعار+الأسماك" alt="أسعار الأسماك" class="screenshot">
+                <img src="https://placehold.co/250x500/34a853/white?text=خرائط+المتاجر" alt="خرائط المتاجر" class="screenshot">
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download">
+        <div class="container">
+            <h2 data-translate="download_title">حمّل تطبيق ماسی الآن</h2>
+            <p data-translate="download_subtitle">انضم إلى مجتمع هواة الأسماك الأكبر في العراق وكردستان</p>
+            <div class="download-buttons">
+                <a href="#" class="download-btn">
+                    <i class="fab fa-google-play"></i>
+                    <span data-translate="download_google_play">Google Play</span>
+                </a>
+                <a href="#" class="download-btn">
+                    <i class="fab fa-apple"></i>
+                    <span data-translate="download_app_store">App Store</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 data-translate="footer_about_title">عن ماسی</h3>
+                    <p data-translate="footer_about_text">منصة اجتماعية متكاملة لهواة تربية الأسماك في العراق وكردستان، نهدف إلى بناء مجتمع متكامل يشارك فيه الجميع خبراتهم ومعرفتهم.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 data-translate="footer_links_title">روابط سريعة</h3>
+                    <ul>
+                        <li><a href="#" data-translate="nav_home">الرئيسية</a></li>
+                        <li><a href="#" data-translate="nav_features">الميزات</a></li>
+                        <li><a href="#" data-translate="nav_download">تحميل التطبيق</a></li>
+                        <li><a href="#" data-translate="nav_faq">الأسئلة الشائعة</a></li>
+                        <li><a href="#" data-translate="nav_contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 data-translate="footer_contact_title">اتصل بنا</h3>
+                    <p data-translate="footer_contact_email">البريد الإلكتروني: info@masi-app.com</p>
+                    <p data-translate="footer_contact_phone">الهاتف: 07825527889</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p data-translate="copyright">&copy; 2023 ماسی - جميع الحقوق محفوظة</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/translations.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
