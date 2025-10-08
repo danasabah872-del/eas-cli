@@ -53,6 +53,7 @@ const RegistrationScreen = () => {
           <Button title="Facebook" onPress={() => {}} />
           <Button title="Twitter" onPress={() => {}} />
           <Button title="TikTok" onPress={() => {}} />
+          <Button title="WhatsApp" onPress={() => {}} />
         </View>
       </View>
     </View>
