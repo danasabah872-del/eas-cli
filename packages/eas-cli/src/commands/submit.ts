@@ -241,6 +241,15 @@ export default class Submit extends EasCommand {
       }
     }
 
+    if (requestedPlatform === RequestedPlatform.Android) {
+      if (flags.whatToTest) {
+        Errors.error('--what-to-test is only supported for iOS submissions.', { exit: 1 });
+      }
+      if (flags.groups?.length) {
+        Errors.error('--groups is only supported for iOS submissions.', { exit: 1 });
+      }
+    }
+
     return {
       ...flags,
       requestedPlatform,
