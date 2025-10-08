@@ -9,19 +9,19 @@ const SplashScreen = () => {
       Animated.sequence([
         Animated.timing(translateX, {
           toValue: 50,
-          duration: 1000,
+          duration: 1500,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
         Animated.timing(translateX, {
           toValue: -50,
-          duration: 1000,
+          duration: 1500,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
         Animated.timing(translateX, {
           toValue: 0,
-          duration: 1000,
+          duration: 1500,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
@@ -31,7 +31,12 @@ const SplashScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.circle, { transform: [{ translateX }] }]} />
+      <Animated.View style={[styles.fishContainer, { transform: [{ translateX }] }]}>
+        <View style={styles.fishBody} />
+        <View style={styles.fishEye} />
+        <View style={styles.fishTail} />
+        <View style={styles.fishFin} />
+      </Animated.View>
     </View>
   );
 };
@@ -41,13 +46,59 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#008080', // Teal background
   },
-  circle: {
+  fishContainer: {
+    width: 120,
+    height: 80,
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fishBody: {
     width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: 'blue',
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#4169E1', // Royal Blue
+    position: 'absolute',
+  },
+  fishEye: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'black',
+    position: 'absolute',
+    left: 25,
+    top: 25,
+  },
+  fishTail: {
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderLeftWidth: 30,
+    borderTopWidth: 20,
+    borderBottomWidth: 20,
+    borderLeftColor: '#4169E1', // Royal Blue
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+    position: 'absolute',
+    right: -15,
+  },
+  fishFin: {
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderBottomWidth: 20,
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderBottomColor: '#4682B4', // Steel Blue
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    position: 'absolute',
+    top: 10,
+    transform: [{ rotate: '5deg' }],
   },
 });
 
