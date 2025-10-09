@@ -18,9 +18,21 @@ const AllowedIosResourceClasses: ResourceClass[] = [
   ResourceClass.M_LARGE,
 ];
 
+/**
+ * The schema for the cache configuration.
+ */
 const CacheSchema = Joi.object({
+  /**
+   * A boolean indicating whether the cache is disabled.
+   */
   disabled: Joi.boolean(),
+  /**
+   * The cache key.
+   */
   key: Joi.string().max(128),
+  /**
+   * A boolean indicating whether the default cache paths are enabled.
+   */
   cacheDefaultPaths: Joi.boolean(),
   customPaths: Joi.array().items(Joi.string()),
   paths: Joi.array().items(Joi.string()),

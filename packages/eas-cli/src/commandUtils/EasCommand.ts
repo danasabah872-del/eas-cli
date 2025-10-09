@@ -67,7 +67,15 @@ interface GetContextAsyncArgsWithoutServerSideEnvironmentArgument extends BaseGe
   withServerSideEnvironment?: never;
 }
 
+/**
+ * The base class for all eas-cli commands.
+ * It sets up a session manager and analytics, and provides a unified context for commands to declare their prerequisites.
+ */
 export default abstract class EasCommand extends Command {
+  /**
+   * The context options for the command.
+   * This is a collection of all the possible context fields that a command can declare.
+   */
   protected static readonly ContextOptions = {
     /**
      * Require this command to be run when logged-in. Returns the logged-in actor and a logged-in

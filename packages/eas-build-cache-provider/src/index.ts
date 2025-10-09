@@ -12,6 +12,12 @@ import path from 'path';
 import { isDevClientBuild, isSpawnResultError } from './helpers';
 import Log from './log';
 
+/**
+ * Resolves the build cache for a given project and platform.
+ * It checks for a build with a matching fingerprint on EAS servers and downloads it if found.
+ * @param props - The properties for resolving the build cache.
+ * @returns The path to the downloaded build cache, or null if not found.
+ */
 async function resolveBuildCacheAsync({
   projectRoot,
   platform,

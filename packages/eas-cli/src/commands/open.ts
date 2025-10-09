@@ -5,14 +5,26 @@ import EasCommand from '../commandUtils/EasCommand';
 import { ora } from '../ora';
 import { getOwnerAccountForProjectIdAsync } from '../project/projectUtils';
 
+/**
+ * A command to open the project page in a web browser.
+ */
 export default class Open extends EasCommand {
+  /**
+   * The description of the command.
+   */
   static override description = 'open the project page in a web browser';
 
+  /**
+   * The context definition for the command.
+   */
   static override contextDefinition = {
     ...this.ContextOptions.ProjectConfig,
     ...this.ContextOptions.LoggedIn,
   };
 
+  /**
+   * The main entry point for the command.
+   */
   async runAsync(): Promise<void> {
     // this command is interactive by nature (only really run by humans in a terminal)
     const {

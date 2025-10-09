@@ -6,9 +6,19 @@ import terminalLink from 'terminal-link';
 
 type Color = (...text: string[]) => string;
 
+/**
+ * A custom logger class.
+ */
 export default class Log {
+  /**
+   * A boolean indicating whether debug logging is enabled.
+   */
   public static readonly isDebug = boolish('EXPO_DEBUG', false);
 
+  /**
+   * Logs a message to the console.
+   * @param args - The arguments to log.
+   */
   public static log(...args: any[]): void {
     Log.consoleLog(...args);
   }

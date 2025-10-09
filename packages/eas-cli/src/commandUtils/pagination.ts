@@ -3,6 +3,11 @@ import { OptionFlag } from '@oclif/core/lib/interfaces';
 
 import { EasNonInteractiveAndJsonFlags } from './flags';
 
+/**
+ * Get the pagination options from the command flags.
+ * @param flags - The command flags.
+ * @returns The pagination options.
+ */
 export const getPaginatedQueryOptions = (
   flags: Partial<
     Record<keyof typeof EasPaginatedQueryFlags | keyof typeof EasNonInteractiveAndJsonFlags, any>

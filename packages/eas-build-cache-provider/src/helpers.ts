@@ -1,6 +1,11 @@
 import { RunOptions, getPackageJson } from '@expo/config';
 import { SpawnResult } from '@expo/spawn-async';
 
+/**
+ * Checks if an object is a spawn result error.
+ * @param obj - The object to check.
+ * @returns True if the object is a spawn result error, false otherwise.
+ */
 export function isSpawnResultError(obj: any): obj is Error & SpawnResult {
   return (
     obj &&

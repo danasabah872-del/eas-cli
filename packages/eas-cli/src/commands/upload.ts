@@ -31,9 +31,18 @@ import { getTmpDirectory } from '../utils/paths';
 import { parseBinaryPlistBuffer } from '../utils/plist';
 import { createProgressTracker } from '../utils/progress';
 
+/**
+ * A command to upload a local build and generate a sharable link.
+ */
 export default class BuildUpload extends EasCommand {
+  /**
+   * The description of the command.
+   */
   static override description = 'upload a local build and generate a sharable link';
 
+  /**
+   * The flags for the command.
+   */
   static override flags = {
     platform: Flags.enum<Platform.IOS | Platform.ANDROID>({
       char: 'p',

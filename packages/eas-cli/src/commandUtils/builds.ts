@@ -20,6 +20,12 @@ const platformToAppPlatform: Record<
   ios: AppPlatform.Ios,
 };
 
+/**
+ * Ensures that a build with the given ID exists.
+ * @param graphqlClient - The Expo GraphQL client.
+ * @param buildId - The ID of the build to check.
+ * @throws An error if the build does not exist.
+ */
 export async function ensureBuildExistsAsync(
   graphqlClient: ExpoGraphqlClient,
   buildId: string

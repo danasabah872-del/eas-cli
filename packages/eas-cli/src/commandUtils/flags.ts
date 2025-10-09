@@ -12,11 +12,20 @@ function mapToLowercase<T extends string>(options: T[]): T[] {
   return options.map(option => option.toLowerCase()) as T[];
 }
 
+/**
+ * A collection of flags for EAS commands that support non-interactive and JSON output.
+ */
 export const EasNonInteractiveAndJsonFlags = {
+  /**
+   * A flag to enable JSON output.
+   */
   json: Flags.boolean({
     description: 'Enable JSON output, non-JSON messages will be printed to stderr.',
     dependsOn: ['non-interactive'],
   }),
+  /**
+   * A flag to run the command in non-interactive mode.
+   */
   'non-interactive': Flags.boolean({
     description: 'Run the command in non-interactive mode.',
   }),

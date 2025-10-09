@@ -7,6 +7,13 @@ import { BuildProfile, EasJsonBuildProfile } from './types';
 
 type EasJsonBuildProfileResolved = Omit<EasJsonBuildProfile, 'extends'>;
 
+/**
+ * Resolves a build profile by merging it with its parent profile and the default profile.
+ * @param easJson - The `eas.json` object.
+ * @param platform - The platform to resolve the profile for.
+ * @param profileName - The name of the profile to resolve.
+ * @returns The resolved build profile.
+ */
 export function resolveBuildProfile<T extends Platform>({
   easJson,
   platform,

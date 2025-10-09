@@ -11,6 +11,9 @@ import { link } from './log';
 import { EasJsonSchema } from './schema';
 import { EasJson } from './types';
 
+/**
+ * A list of custom error message handlers for `eas.json` validation.
+ */
 const customErrorMessageHandlers: ((err: ValidationError) => void)[] = [
   // Ask user to upgrade eas-cli version or check the docs when image is invalid.
   (err: ValidationError) => {
@@ -35,6 +38,10 @@ const customErrorMessageHandlers: ((err: ValidationError) => void)[] = [
   },
 ];
 
+/**
+ * A class to read, write, and patch `eas.json`.
+ * It supports both JSON and JSON5 formats.
+ */
 export class EasJsonAccessor {
   private easJsonPath: string | undefined;
 
@@ -57,18 +64,37 @@ export class EasJsonAccessor {
     this.easJsonRawContents = easJsonRawContents;
   }
 
+  /**
+   * Creates a new instance of `EasJsonAccessor` from a project directory.
+   * @param projectDir - The project directory.
+   * @returns A new instance of `EasJsonAccessor`.
+   */
   public static fromProjectPath(projectDir: string): EasJsonAccessor {
     return new EasJsonAccessor({ projectDir });
   }
 
+  /**
+   * Creates a new instance of `EasJsonAccessor` from a raw string.
+   * @param easJsonRawContents - The raw contents of `eas.json`.
+   * @returns A new instance of `EasJsonAccessor`.
+   */
   public static fromRawString(easJsonRawContents: string): EasJsonAccessor {
     return new EasJsonAccessor({ easJsonRawContents });
   }
 
+  /**
+   * Formats the path to `eas.json` for a given project directory.
+   * @param projectDir - The project directory.
+   * @returns The path to `eas.json`.
+   */
   public static formatEasJsonPath(projectDir: string): string {
     return path.join(projectDir, 'eas.json');
   }
 
+  /**
+   * Reads and validates `eas.json`.
+   * @returns The contents of `eas.json`.
+   */
   public async readAsync(): Promise<EasJson> {
     if (this.easJson) {
       return this.easJson;
@@ -95,6 +121,9 @@ export class EasJsonAccessor {
     return value;
   }
 
+  /**
+   * Writes the patched `eas.json` to the file system.
+   */
   public async writeAsync(): Promise<void> {
     if (!this.easJsonPath) {
       throw new Error('Updates are not supported for EasJsonAccessor created from string.');
@@ -106,6 +135,10 @@ export class EasJsonAccessor {
     this.resetState();
   }
 
+  /**
+   * Patches the `eas.json` with a function.
+   * @param fn - The function to patch the `eas.json` with.
+   */
   public patch(fn: (easJsonRawObject: any) => any): void {
     if (!this.easJsonPath) {
       throw new Error('Updates are not supported for EasJsonAccessor created from string.');
@@ -124,6 +157,10 @@ export class EasJsonAccessor {
     this.easJsonPatched = true;
   }
 
+  /**
+   * Reads the raw `eas.json` from the file system.
+   * @returns The raw contents of `eas.json`.
+   */
   public async readRawJsonAsync(): Promise<any> {
     if (this.easJsonPath) {
       if (!(await fs.pathExists(this.easJsonPath))) {
@@ -138,6 +175,10 @@ export class EasJsonAccessor {
     return this.parseRawJson();
   }
 
+  /**
+   * Parses the raw `eas.json`.
+   * @returns The parsed `eas.json`.
+   */
   private parseRawJson(): any {
     assert(
       this.easJsonRawContents !== undefined,
@@ -174,6 +215,9 @@ export class EasJsonAccessor {
     }
   }
 
+  /**
+   * Resets the state of the `EasJsonAccessor`.
+   */
   private resetState(): void {
     this.isJson5 = false;
     this.easJson = undefined;
