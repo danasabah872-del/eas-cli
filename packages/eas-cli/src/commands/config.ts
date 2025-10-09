@@ -13,9 +13,18 @@ import { appPlatformEmojis } from '../platform';
 import { selectAsync } from '../prompts';
 import { enableJsonOutput, printJsonOnlyOutput } from '../utils/json';
 
+/**
+ * A command to display project configuration.
+ */
 export default class Config extends EasCommand {
+  /**
+   * The description of the command.
+   */
   static override description = 'display project configuration (app.json + eas.json)';
 
+  /**
+   * The flags for the command.
+   */
   static override flags = {
     platform: Flags.enum<Platform>({ char: 'p', options: [Platform.ANDROID, Platform.IOS] }),
     profile: Flags.string({

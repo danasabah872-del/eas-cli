@@ -1,3 +1,6 @@
+/**
+ * @module @expo/eas-json
+ */
 export { AndroidReleaseStatus, AndroidReleaseTrack, SubmitProfile } from './submit/types';
 export { getDefaultProfile as getDefaultSubmitProfile } from './submit/resolver';
 export { EasJson, ProfileType, AppVersionSource } from './types';

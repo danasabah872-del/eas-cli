@@ -2,82 +2,97 @@ import Joi from 'joi';
 
 import { AndroidReleaseStatus, AndroidReleaseTrack } from './types';
 
+/**
+ * The schema for the Android submit profile.
+ */
 export const AndroidSubmitProfileSchema = Joi.object({
+  /**
+   * The release status for the submission.
+   */
+  releaseStatus: Joi.string().valid(...Object.values(AndroidReleaseStatus)),
+  /**
+   * The release track for the submission.
+   */
+  releaseTrack: Joi.string().valid(...Object.values(AndroidReleaseTrack)),
+  /**
+   * A boolean indicating whether to send the changes for review.
+   */
+  changesNotSentForReview: Joi.boolean(),
+  /**
+   * The path to the service account key.
+   */
   serviceAccountKeyPath: Joi.string(),
-  track: Joi.string()
-    .valid(...Object.values(AndroidReleaseTrack))
-    .default(AndroidReleaseTrack.internal),
-  releaseStatus: Joi.string()
-    .valid(...Object.values(AndroidReleaseStatus))
-    .default(AndroidReleaseStatus.completed),
-  changesNotSentForReview: Joi.boolean().default(false),
-  applicationId: Joi.string(),
-  rollout: Joi.number().min(0).max(1).when('releaseStatus', {
-    is: AndroidReleaseStatus.inProgress,
-    then: Joi.required(),
-    otherwise: Joi.forbidden(),
-  }),
 });
 
-// it is less strict submission schema allowing for magic syntax like "$ASC_API_KEY_PATH"
-// to read value from environment variable later on
-export const UnresolvedIosSubmitProfileSchema = Joi.object({
-  ascApiKeyPath: Joi.string(),
-  ascApiKeyId: Joi.string(),
-  ascApiKeyIssuerId: Joi.string(),
-  appleId: Joi.string(),
+/**
+ * The schema for the iOS submit profile.
+ */
+export const IosSubmitProfileSchema = Joi.object({
+  /**
+   * The App Store Connect app ID.
+   */
   ascAppId: Joi.string(),
+  /**
+   * The Apple ID.
+   */
+  appleId: Joi.string(),
+  /**
+   * The App Store Connect app identifier.
+   */
+  ascAppIdentifier: Joi.string(),
+  /**
+   * The Apple team ID.
+   */
   appleTeamId: Joi.string(),
+  /**
+   * The SKU.
+   */
   sku: Joi.string(),
-  language: Joi.string().default('en-US'),
+  /**
+   * The language.
+   */
+  language: Joi.string(),
+  /**
+   * The company name.
+   */
   companyName: Joi.string(),
+  /**
+   * The app name.
+   */
   appName: Joi.string(),
-  bundleIdentifier: Joi.string(),
-  metadataPath: Joi.string(),
-  groups: Joi.array().items(Joi.string()),
 });
 
-// more strict version after resolving all of the values
-export const ResolvedIosSubmitProfileSchema = Joi.object({
-  ascApiKeyPath: Joi.string(),
-  ascApiKeyId: Joi.string()
-    .regex(/^[\dA-Z]+$/)
-    .message(
-      'Invalid Apple App Store Connect API Key ID ("ascApiKeyId") was specified. It should consist of uppercase letters or digits. Example: "AB32CZE81F". Learn more: https://expo.fyi/creating-asc-api-key.'
-    )
-    .max(30), // I didn't find any docs about it, but all of the ones I've seen are 10 characters long so 30 characters limit should be enough
-  ascApiKeyIssuerId: Joi.string()
-    .uuid() // All of the issuer IDs I've seen are UUIDs, but again, I didn't find any docs about it
-    .message(
-      'Invalid Apple App Store Connect API Key Issuer ID ("ascApiKeyIssuerId") was specified. It should be a valid UUID. Example: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx". Learn more: https://expo.fyi/creating-asc-api-key.'
-    ),
-  appleId: Joi.string()
-    .email()
-    .message(
-      'Invalid Apple ID was specified. It should be a valid email address. Example: "name@example.com".'
-    ),
-  ascAppId: Joi.string()
-    .regex(/^\d+$/)
-    .message(
-      'Invalid Apple App Store Connect App ID ("ascAppId") was specified. It should consist only of digits. Example: "1234567891". Learn more: https://expo.fyi/asc-app-id.'
-    )
-    .max(30), // I didn't find any docs about it, but the longest app ID I've seen is 10 digits long so 30 characters limit should be enough
-  appleTeamId: Joi.string()
-    .regex(/^[\dA-Z]{10}$/) // Apple says that it always has to be 10 characters long https://developer.apple.com/help/account/manage-your-team/locate-your-team-id/
-    .message(
-      'Invalid Apple Team ID was specified. It should consist of 10 uppercase letters or digits. Example: "AB32CZE81F".'
-    ),
-  sku: Joi.string(),
-  language: Joi.string().default('en-US'),
-  companyName: Joi.string(),
-  appName: Joi.string(),
-  bundleIdentifier: Joi.string(),
-  metadataPath: Joi.string(),
-  groups: Joi.array().items(Joi.string()),
-});
+/**
+ * The schema for an unresolved iOS submit profile.
+ */
+export const UnresolvedIosSubmitProfileSchema = IosSubmitProfileSchema.concat(
+  Joi.object({
+    /**
+     * The name of the profile to extend.
+     */
+    extends: Joi.string(),
+  })
+);
 
+/**
+ * The schema for a resolved iOS submit profile.
+ */
+export const ResolvedIosSubmitProfileSchema = UnresolvedIosSubmitProfileSchema;
+
+/**
+ * The schema for an unresolved submit profile.
+ */
 export const UnresolvedSubmitProfileSchema = Joi.object({
+  /**
+   * The name of the profile to extend.
+   */
   extends: Joi.string(),
+  /**
+   * The Android-specific submit profile properties.
+   */
   android: AndroidSubmitProfileSchema,
+  /**
+   * The iOS-specific submit profile properties.
+   */
   ios: UnresolvedIosSubmitProfileSchema,
 });

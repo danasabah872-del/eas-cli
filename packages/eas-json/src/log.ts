@@ -1,7 +1,12 @@
 import chalk from 'chalk';
 import terminalLink from 'terminal-link';
 
-// link function from packages/eas-cli/src/log.ts
+/**
+ * Creates a terminal link.
+ * @param url - The URL to link to.
+ * @param options - The options for the link.
+ * @returns The terminal link.
+ */
 export function link(
   url: string,
   { text = url, dim = true }: { text?: string; dim?: boolean } = {}

@@ -9,14 +9,26 @@ import { resolveWorkflowAsync } from '../project/workflow';
 import { easCliVersion } from '../utils/easCli';
 import { Client } from '../vcs/vcs';
 
+/**
+ * A command to display environment info.
+ */
 export default class Diagnostics extends EasCommand {
+  /**
+   * The description of the command.
+   */
   static override description = 'display environment info';
 
+  /**
+   * The context definition for the command.
+   */
   static override contextDefinition = {
     ...this.ContextOptions.ProjectDir,
     ...this.ContextOptions.Vcs,
   };
 
+  /**
+   * The main entry point for the command.
+   */
   async runAsync(): Promise<void> {
     const { projectDir, vcsClient } = await this.getContextAsync(Diagnostics, {
       nonInteractive: true,

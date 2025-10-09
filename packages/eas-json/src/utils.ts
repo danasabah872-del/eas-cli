@@ -14,7 +14,15 @@ interface EasJsonDeprecationWarning {
   docsUrl?: string;
 }
 
+/**
+ * A class of utilities for working with `eas.json`.
+ */
 export class EasJsonUtils {
+  /**
+   * Gets the names of all build profiles.
+   * @param accessor - The `EasJsonAccessor` instance.
+   * @returns The names of all build profiles.
+   */
   public static async getBuildProfileNamesAsync(accessor: EasJsonAccessor): Promise<string[]> {
     const easJson = await accessor.readAsync();
     return Object.keys(easJson?.build ?? {});
