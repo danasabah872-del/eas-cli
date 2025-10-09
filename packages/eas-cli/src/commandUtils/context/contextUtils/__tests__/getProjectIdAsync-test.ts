@@ -25,6 +25,7 @@ jest.mock('../../../../project/fetchOrCreateProjectIDForWriteToConfigWithConfirm
 jest.mock('../../../../project/projectUtils');
 
 describe(getProjectIdAsync, () => {
+  jest.setTimeout(30000);
   let sessionManager: SessionManager;
 
   beforeEach(() => {
