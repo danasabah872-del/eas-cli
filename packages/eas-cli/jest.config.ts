@@ -9,6 +9,9 @@ const config: Config = {
   roots: ['src', '__mocks__'],
   globalSetup: './jest/global-setup.ts',
   setupFilesAfterEnv: ['./jest/setup-after-env.ts'],
+  moduleNameMapper: {
+    '^@expo/eas-json$': '<rootDir>/../eas-json/src',
+  },
 };
 
 export default config;

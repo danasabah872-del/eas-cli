@@ -4,6 +4,9 @@ const config: Config = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testRegex: '/__tests__/.*(test|spec)\\.[jt]sx?$',
+  moduleNameMapper: {
+    '^@expo/eas-json$': '<rootDir>/../eas-json/src',
+  },
 };
 
 export default config;
