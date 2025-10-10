@@ -34,16 +34,33 @@ export async function getBranchFromChannelNameAndCreateAndLinkIfNotExistsAsync(
       throw error;
     }
 
-    const { branch } = await ensureBranchExistsAsync(graphqlClient, {
+    const { branch: branchBasicInfo, createdBranch } = await ensureBranchExistsAsync(graphqlClient, {
       appId: projectId,
       branchName: channelName,
     });
+
+    if (!createdBranch) {
+      const channels = await ChannelQuery.viewUpdateChannelsOnAppAsync(graphqlClient, {
+        appId: projectId,
+        offset: 0,
+        limit: 10000,
+      });
+
+      for (const channel of channels) {
+        if (channel.updateBranches.some(branch => branch.name === channelName)) {
+          throw new Error(
+            `Branch '${channelName}' already exists and is linked to channel '${channel.name}'.`
+          );
+        }
+      }
+    }
+
     const {
       updateChannel: { createUpdateChannelForApp: newChannel },
     } = await createChannelOnAppAsync(graphqlClient, {
       appId: projectId,
       channelName,
-      branchId: branch.id,
+      branchId: branchBasicInfo.id,
     });
 
     if (!newChannel) {
@@ -52,7 +69,7 @@ export async function getBranchFromChannelNameAndCreateAndLinkIfNotExistsAsync(
       );
     }
 
-    branchInfo = { branchId: branch.id, branchName: channelName };
+    branchInfo = { branchId: branchBasicInfo.id, branchName: channelName };
   }
 
   return branchInfo;

@@ -1,5 +1,7 @@
 import { instance, mock } from 'ts-mockito';
 
+import { ensureBranchExistsAsync } from '../../branch/queries';
+import { ChannelNotFoundError } from '../../channel/errors';
 import { ExpoGraphqlClient } from '../../commandUtils/context/contextUtils/createGraphqlClient';
 import {
   App,
@@ -13,8 +15,9 @@ import {
 import { ChannelQuery } from '../../graphql/queries/ChannelQuery';
 import { getBranchFromChannelNameAndCreateAndLinkIfNotExistsAsync } from '../getBranchFromChannelNameAndCreateAndLinkIfNotExistsAsync';
 
+jest.mock('../../branch/queries');
+jest.mock('../../channel/queries');
 jest.mock('../../graphql/queries/ChannelQuery');
-jest.mock('../../graphql/queries/BranchQuery');
 
 describe(getBranchFromChannelNameAndCreateAndLinkIfNotExistsAsync, () => {
   beforeEach(() => {
@@ -99,6 +102,49 @@ describe(getBranchFromChannelNameAndCreateAndLinkIfNotExistsAsync, () => {
     );
 
     expect(result.branchName).toBe('test-branch-name');
+  });
+
+  it('should throw an error if the branch is already linked to a channel', async () => {
+    const projectId = 'test-project-id';
+    const channelName = 'staging';
+    const branchId = 'test-branch-id';
+    const graphqlClient = instance(mock<ExpoGraphqlClient>());
+
+    jest.mocked(ChannelQuery.viewUpdateChannelAsync).mockImplementation(async () => {
+      throw new ChannelNotFoundError('Channel not found');
+    });
+
+    jest.mocked(ChannelQuery.viewUpdateChannelsOnAppAsync).mockResolvedValue([
+      {
+        id: 'another-channel-id',
+        name: 'another-channel',
+        isPaused: false,
+        createdAt: '2022-01-01T00:00:00.000Z',
+        updatedAt: '2022-01-01T00:00:00.000Z',
+        branchMapping: '',
+        updateBranches: [
+          {
+            id: branchId,
+            name: channelName,
+            updateGroups: [],
+          },
+        ],
+      },
+    ]);
+
+    jest.mocked(ensureBranchExistsAsync).mockImplementation(async () => ({
+      branch: {
+        id: branchId,
+        name: channelName,
+      },
+      createdBranch: false,
+    }));
+
+    await expect(
+      getBranchFromChannelNameAndCreateAndLinkIfNotExistsAsync(graphqlClient, projectId, channelName)
+    ).rejects.toThrowError(
+      `Branch 'staging' already exists and is linked to channel 'another-channel'.`
+    );
   });
 });
 
