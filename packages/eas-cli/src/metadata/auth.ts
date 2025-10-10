@@ -1,5 +1,6 @@
 import { App, Session } from '@expo/apple-utils';
 import { ExpoConfig } from '@expo/config';
+import { Platform } from '@expo/eas-build-job';
 import { SubmitProfile } from '@expo/eas-json';
 import assert from 'assert';
 
@@ -21,7 +22,7 @@ export type MetadataAppStoreAuthentication = {
  */
 async function resolveAppStoreBundleIdentifierAsync(
   projectDir: string,
-  profile: SubmitProfile,
+  profile: SubmitProfile<Platform.IOS>,
   exp: ExpoConfig,
   vcsClient: Client
 ): Promise<string> {
@@ -43,7 +44,7 @@ export async function getAppStoreAuthAsync({
   credentialsCtx,
 }: {
   projectDir: string;
-  profile: SubmitProfile;
+  profile: SubmitProfile<Platform.IOS>;
   exp: ExpoConfig;
   credentialsCtx: CredentialsContext;
 }): Promise<MetadataAppStoreAuthentication> {

@@ -1,4 +1,5 @@
 import { ExpoConfig } from '@expo/config';
+import { Platform } from '@expo/eas-build-job';
 import { SubmitProfile } from '@expo/eas-json';
 import fs from 'fs-extra';
 import path from 'path';
@@ -26,7 +27,7 @@ export async function downloadMetadataAsync({
   credentialsCtx,
 }: {
   projectDir: string;
-  profile: SubmitProfile;
+  profile: SubmitProfile<Platform.IOS>;
   exp: ExpoConfig;
   analytics: Analytics;
   credentialsCtx: CredentialsContext;

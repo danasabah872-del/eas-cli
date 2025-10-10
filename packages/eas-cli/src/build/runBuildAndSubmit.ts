@@ -518,7 +518,7 @@ async function prepareAndStartAutoSubmissionAsync({
   buildCtx: BuildContext<Platform>;
   moreBuilds: boolean;
   projectDir: string;
-  submitProfile: SubmitProfile;
+  submitProfile: SubmitProfile<Platform>;
   selectedSubmitProfileName?: string;
   nonInteractive: boolean;
 }): Promise<SubmissionFragment> {

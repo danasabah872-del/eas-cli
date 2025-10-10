@@ -1,5 +1,5 @@
 import { Platform } from '@expo/eas-build-job';
-import { EasJsonAccessor } from '@expo/eas-json';
+import { EasJsonAccessor, IosSubmitProfile } from '@expo/eas-json';
 import { Flags } from '@oclif/core';
 import chalk from 'chalk';
 import path from 'path';
@@ -76,7 +76,7 @@ export default class MetadataPull extends EasCommand {
         exp,
         credentialsCtx,
         projectDir,
-        profile: submitProfile,
+        profile: submitProfile as IosSubmitProfile,
       });
       const relativePath = path.relative(process.cwd(), filePath);
 
