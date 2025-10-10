@@ -1,5 +1,5 @@
 import { Platform } from '@expo/eas-build-job';
-import { EasJsonAccessor } from '@expo/eas-json';
+import { EasJsonAccessor, IosSubmitProfile } from '@expo/eas-json';
 import { Flags } from '@oclif/core';
 
 import EasCommand from '../../commandUtils/EasCommand';
@@ -57,7 +57,7 @@ export default class MetadataLint extends EasCommand {
     const submitProfile = submitProfiles[0].profile;
 
     try {
-      await loadConfigAsync({ projectDir, profile: submitProfile });
+      await loadConfigAsync({ projectDir, profile: submitProfile as IosSubmitProfile });
 
       if (flags.json) {
         printJsonOnlyOutput([]);

@@ -1,5 +1,5 @@
 import { Platform } from '@expo/eas-build-job';
-import { EasJsonAccessor } from '@expo/eas-json';
+import { EasJsonAccessor, IosSubmitProfile } from '@expo/eas-json';
 import { Flags } from '@oclif/core';
 
 import { ensureProjectConfiguredAsync } from '../../build/configure';
@@ -74,7 +74,7 @@ export default class MetadataPush extends EasCommand {
         exp,
         credentialsCtx,
         projectDir,
-        profile: submitProfile,
+        profile: submitProfile as IosSubmitProfile,
       });
 
       Log.addNewLineIfNone();

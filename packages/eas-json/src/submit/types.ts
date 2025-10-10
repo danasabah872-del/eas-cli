@@ -1,3 +1,5 @@
+import { Platform } from '@expo/eas-build-job';
+
 export enum AndroidReleaseStatus {
   completed = 'completed',
   draft = 'draft',
@@ -32,6 +34,18 @@ export interface AndroidSubmitProfile {
    * The path to the service account key.
    */
   serviceAccountKeyPath?: string;
+  /**
+   * The rollout percentage.
+   */
+  rollout?: number;
+  /**
+   * The release track for the submission.
+   */
+  track?: string;
+  /**
+   * The application identifier.
+   */
+  applicationId?: string;
 }
 
 /**
@@ -70,12 +84,36 @@ export interface IosSubmitProfile {
    * The app name.
    */
   appName?: string;
+  /**
+   * The bundle identifier.
+   */
+  bundleIdentifier?: string;
+  /**
+   * The path to the App Store Connect API key.
+   */
+  ascApiKeyPath?: string;
+  /**
+   * The App Store Connect API key issuer ID.
+   */
+  ascApiKeyIssuerId?: string;
+  /**
+   * The App Store Connect API key ID.
+   */
+  ascApiKeyId?: string;
+  /**
+   * The App Store Connect groups.
+   */
+  groups?: string[];
+  /**
+   * The path to the metadata.
+   */
+  metadataPath?: string;
 }
 
 /**
  * The submit profile.
  */
-export type SubmitProfile<TPlatform extends 'android' | 'ios'> = TPlatform extends 'android'
+export type SubmitProfile<TPlatform extends Platform> = TPlatform extends Platform.ANDROID
   ? AndroidSubmitProfile
   : IosSubmitProfile;
 

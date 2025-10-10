@@ -1,3 +1,4 @@
+import { Platform } from '@expo/eas-build-job';
 import { SubmitProfile } from '@expo/eas-json';
 import assert from 'assert';
 import fs from 'fs-extra';
@@ -26,7 +27,7 @@ async function resolveDynamicConfigAsync(configFile: string): Promise<unknown> {
  * Resolve the prefered store config file name from the submit profile.
  * This is relative to the project directory, and uses `store.config.json` by default.
  */
-function resolveConfigFilePath(profile: SubmitProfile): string {
+function resolveConfigFilePath(profile: SubmitProfile<Platform.IOS>): string {
   if ('metadataPath' in profile) {
     return profile.metadataPath ?? 'store.config.json';
   }
@@ -43,7 +44,7 @@ export function getStaticConfigFilePath({
   profile,
 }: {
   projectDir: string;
-  profile: SubmitProfile;
+  profile: SubmitProfile<Platform.IOS>;
 }): string {
   const configFile = path.join(projectDir, resolveConfigFilePath(profile));
   const configExtension = path.extname(configFile);
@@ -63,7 +64,7 @@ export async function loadConfigAsync({
   skipValidation = false,
 }: {
   projectDir: string;
-  profile: SubmitProfile;
+  profile: SubmitProfile<Platform.IOS>;
   skipValidation?: boolean;
 }): Promise<MetadataConfig> {
   const configFile = path.join(projectDir, resolveConfigFilePath(profile));

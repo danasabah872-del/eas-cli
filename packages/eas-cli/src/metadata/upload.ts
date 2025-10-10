@@ -1,4 +1,5 @@
 import { ExpoConfig } from '@expo/config';
+import { Platform } from '@expo/eas-build-job';
 import { SubmitProfile } from '@expo/eas-json';
 
 import { AppleData } from './apple/data';
@@ -25,7 +26,7 @@ export async function uploadMetadataAsync({
   credentialsCtx,
 }: {
   projectDir: string;
-  profile: SubmitProfile;
+  profile: SubmitProfile<Platform.IOS>;
   exp: ExpoConfig;
   analytics: Analytics;
   credentialsCtx: CredentialsContext;
@@ -84,7 +85,7 @@ export async function uploadMetadataAsync({
 
 async function loadConfigWithValidationPromptAsync(
   projectDir: string,
-  profile: SubmitProfile
+  profile: SubmitProfile<Platform.IOS>
 ): Promise<MetadataConfig> {
   try {
     return await loadConfigAsync({ projectDir, profile });

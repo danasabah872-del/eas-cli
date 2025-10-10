@@ -1,3 +1,4 @@
+import { Platform } from '@expo/eas-build-job';
 import { SubmitProfile } from '@expo/eas-json';
 import path from 'path';
 
@@ -7,7 +8,7 @@ import { MetadataValidationError } from '../errors';
 describe(getStaticConfigFilePath, () => {
   const projectDir = '/app';
 
-  function mockProfile(metadataPath: string): SubmitProfile {
+  function mockProfile(metadataPath: string): SubmitProfile<Platform.IOS> {
     return { metadataPath } as any;
   }
 
@@ -40,7 +41,7 @@ describe(getStaticConfigFilePath, () => {
 describe(loadConfigAsync, () => {
   const projectDir = path.resolve(__dirname, 'fixtures');
 
-  function mockProfile(metadataPath: string): SubmitProfile {
+  function mockProfile(metadataPath: string): SubmitProfile<Platform.IOS> {
     return { metadataPath } as any;
   }
 
