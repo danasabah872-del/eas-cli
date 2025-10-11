@@ -110,7 +110,7 @@ function mergeProfiles<T extends Platform>(
 ): SubmitProfile<T> | undefined;
 function mergeProfiles<T extends Platform>(
   base?: SubmitProfile<T>,
-  update?: Submit-Profile<T>
+  update?: SubmitProfile<T>
 ): SubmitProfile<T> | undefined {
   if (!update) {
     return base;

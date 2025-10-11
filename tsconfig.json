@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "sourceMap": true,
+    "allowJs": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@expo/eas-json": ["packages/eas-json/src"],
+      "@expo/eas-json/*": ["packages/eas-json/src/*"]
+    }
+  },
+  "references": [
+    { "path": "./packages/social-media-app-backend" },
+    { "path": "./packages/social-media-app-frontend" }
+  ],
+  "exclude": ["node_modules", "dist"]
+}
