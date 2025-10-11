@@ -19,88 +19,41 @@ app.get('/', (req, res) => {
   res.send('Social Media Aggregator Backend is running!');
 });
 
-// Register a new user
-app.post('/register', async (req, res) => {
-  try {
-    const { username, password, email } = req.body;
-
-    if (!username || !password || !email) {
-      return res.status(400).send('Please provide username, password, and email.');
-    }
-
-    const existingUser = users.find(user => user.username === username);
-    if (existingUser) {
-      return res.status(400).send('User already exists.');
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = { id: users.length + 1, username, password: hashedPassword, email };
-    users.push(newUser);
-
-    res.status(201).send('User registered successfully.');
-  } catch (error) {
-    res.status(500).send('Server error.');
-  }
-});
-
-// Login a user
-app.post('/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-
-    if (!username || !password) {
-      return res.status(400).send('Please provide username and password.');
-    }
-
-    const user = users.find(u => u.username === username);
-    if (!user) {
-      return res.status(400).send('Invalid credentials.');
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).send('Invalid credentials.');
-    }
-
-    const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
-
-    res.json({ token });
-  } catch (error) {
-    res.status(500).send('Server error.');
-  }
-});
-
-// A temporary store for videos. Will include a createdAt timestamp.
-const videos = [
-  { id: 1, platform: 'tiktok', url: 'https://v16-webapp.tiktok.com/video1.mp4', author: '@user1', likes: 1500, comments: 300, createdAt: new Date() },
-  { id: 2, platform: 'tiktok', url: 'https://v16-webapp.tiktok.com/video2.mp4', author: '@user2', likes: 2500, comments: 500, createdAt: new Date() },
-  { id: 3, platform: 'tiktok', url: 'https://v16-webapp.tiktok.com/video3.mp4', author: '@user3', likes: 500, comments: 50, createdAt: new Date() },
-];
+// --- MOCK TIKTOK API ---
+// In a real app, this would be a call to the actual TikTok API
+const fetchVideosFromTikTokAPI = async () => {
+  console.log('Fetching videos from TikTok API...');
+  // This is mock data. In a real implementation, you would use the TikTok API
+  // to get a list of trending videos.
+  return [
+    { id: 1, platform: 'tiktok', url: 'https://v16-webapp.tiktok.com/video1.mp4', author: '@user1', description: 'This is a cool video!', likes: 1500, comments: 300, createdAt: new Date() },
+    { id: 2, platform: 'tiktok', url: 'https://v16-webapp.tiktok.com/video2.mp4', author: '@user2', description: 'Another great video!', likes: 2500, comments: 500, createdAt: new Date() },
+    { id: 3, platform: 'tiktok', url: 'https://v16-webapp.tiktok.com/video3.mp4', author: '@user3', description: 'Check this out!', likes: 500, comments: 50, createdAt: new Date() },
+  ];
+};
 
 // Endpoint to get trending videos for a platform
-app.get('/api/videos/tiktok', (req, res) => {
-  // In a real app, you would fetch this from the TikTok API
-  // For now, we return mock data.
-  const tiktokVideos = videos.filter(v => v.platform === 'tiktok');
-  res.json(tiktokVideos);
+app.get('/api/videos/tiktok', async (req, res) => {
+  try {
+    const tiktokVideos = await fetchVideosFromTikTokAPI();
+    res.json(tiktokVideos);
+  } catch (error) {
+    res.status(500).send('Error fetching videos from TikTok.');
+  }
 });
 
 // Simple cron job to clean up old videos every hour
-setInterval(() => {
+// Note: This is not a robust solution for production.
+// A better approach would be to use a proper cron job library or a separate service.
+let videosCache = [];
+setInterval(async () => {
   const now = new Date();
   const fortyEightHoursAgo = new Date(now.getTime() - (48 * 60 * 60 * 1000));
 
-  // Filter out videos that are older than 48 hours
-  const recentVideos = videos.filter(video => video.createdAt > fortyEightHoursAgo);
+  const freshVideos = await fetchVideosFromTikTokAPI();
+  videosCache = freshVideos.filter(video => video.createdAt > fortyEightHoursAgo);
+  console.log(`Updated video cache. Total videos: ${videosCache.length}`);
 
-  if (recentVideos.length < videos.length) {
-    console.log(`Cleaned up ${videos.length - recentVideos.length} old videos.`);
-    // In a real app with a database, you would perform a delete operation here.
-    // For our in-memory store, we can just replace the array.
-    // This is a simplified example. A more robust solution is needed for production.
-    videos.length = 0; // Clear the original array
-    Array.prototype.push.apply(videos, recentVideos); // Push the recent videos back
-  }
 }, 3600000); // Run every hour
 
 
