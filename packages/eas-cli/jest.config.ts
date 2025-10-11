@@ -10,6 +10,7 @@ const config: Config = {
   globalSetup: './jest/global-setup.ts',
   setupFilesAfterEnv: ['./jest/setup-after-env.ts'],
   moduleNameMapper: {
+    '^@expo/eas-json/(.*)$': '<rootDir>/../eas-json/src/$1',
     '^@expo/eas-json$': '<rootDir>/../eas-json/src',
   },
 };

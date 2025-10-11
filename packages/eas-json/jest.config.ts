@@ -7,9 +7,6 @@ const config: Config = {
   ...baseConfig,
   rootDir: __dirname,
   roots: ['src', '__mocks__'],
-  moduleNameMapper: {
-    '^@expo/eas-json$': '<rootDir>/src',
-  },
 };
 
 export default config;
