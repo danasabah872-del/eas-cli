@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const app = express();
@@ -19,55 +18,38 @@ app.get('/', (req, res) => {
   res.send('Social Media Aggregator Backend is running!');
 });
 
-// Register a new user
-app.post('/register', async (req, res) => {
-  try {
-    const { username, password, email } = req.body;
+// Placeholder for TikTok authentication endpoint
+app.post('/auth/tiktok', async (req, res) => {
+  // The frontend will send an authorization code, which we'll exchange for an access token.
+  // This is a simplified placeholder.
+  const { code } = req.body;
 
-    if (!username || !password || !email) {
-      return res.status(400).send('Please provide username, password, and email.');
-    }
-
-    const existingUser = users.find(user => user.username === username);
-    if (existingUser) {
-      return res.status(400).send('User already exists.');
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = { id: users.length + 1, username, password: hashedPassword, email };
-    users.push(newUser);
-
-    res.status(201).send('User registered successfully.');
-  } catch (error) {
-    res.status(500).send('Server error.');
+  if (!code) {
+    return res.status(400).send("Authorization code is missing.");
   }
-});
 
-// Login a user
-app.post('/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
+  // In a real implementation, you would:
+  // 1. Exchange the code for an access token from TikTok.
+  // 2. Use the access token to get user info from TikTok's API.
+  // 3. Find or create a user in your database.
+  // 4. Create a JWT and send it back to the client.
 
-    if (!username || !password) {
-      return res.status(400).send('Please provide username and password.');
-    }
+  // For now, we'll simulate a successful login.
+  const mockTikTokUser = {
+    id: 'tiktok-user-123',
+    username: 'tiktok_user',
+  };
 
-    const user = users.find(u => u.username === username);
-    if (!user) {
-      return res.status(400).send('Invalid credentials.');
-    }
+  const user = {
+    id: `user-${users.length + 1}`,
+    tiktokId: mockTikTokUser.id,
+    username: mockTikTokUser.username,
+  };
+  users.push(user);
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).send('Invalid credentials.');
-    }
+  const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
 
-    const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
-
-    res.json({ token });
-  } catch (error) {
-    res.status(500).send('Server error.');
-  }
+  res.json({ token });
 });
 
 // A temporary store for videos. Will include a createdAt timestamp.
