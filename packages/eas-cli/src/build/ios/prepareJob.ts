@@ -28,6 +28,12 @@ const cacheDefaults = {
   paths: [],
 };
 
+/**
+ * Prepare the iOS job.
+ * @param ctx The build context.
+ * @param jobData The job data.
+ * @returns The iOS job.
+ */
 export async function prepareJobAsync(
   ctx: BuildContext<Platform.IOS>,
   jobData: JobData
@@ -116,6 +122,11 @@ export async function prepareJobAsync(
   return sanitizeBuildJob(job) as Ios.Job;
 }
 
+/**
+ * Prepare the credentials for a build resign.
+ * @param credentials The credentials.
+ * @returns The GraphQL input.
+ */
 export function prepareCredentialsToResign(credentials: IosCredentials): IosJobSecretsInput {
   const buildCredentials: IosJobSecretsInput['buildCredentials'] = [];
   for (const targetName of Object.keys(credentials ?? {})) {

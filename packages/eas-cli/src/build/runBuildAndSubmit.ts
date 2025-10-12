@@ -83,24 +83,85 @@ import { Client } from '../vcs/vcs';
 let metroConfigValidated = false;
 let sdkVersionChecked = false;
 
+/**
+ * The flags for the build command.
+ */
 export interface BuildFlags {
+  /**
+   * The platform to build for.
+   */
   requestedPlatform: RequestedPlatform;
+  /**
+   * The name of the build profile.
+   */
   profile?: string;
+  /**
+   * Whether to run in non-interactive mode.
+   */
   nonInteractive: boolean;
+  /**
+   * Whether to wait for the build to complete.
+   */
   wait: boolean;
+  /**
+   * Whether to clear the cache before building.
+   */
   clearCache: boolean;
+  /**
+   * Whether to output in JSON format.
+   */
   json: boolean;
+  /**
+   * Whether to submit the build to the app store.
+   */
   autoSubmit: boolean;
+  /**
+   * The name of the submit profile.
+   */
   submitProfile?: string;
+  /**
+   * The local build options.
+   */
   localBuildOptions: LocalBuildOptions;
+  /**
+   * The resource class to use for the build.
+   */
   resourceClass?: ResourceClass;
+  /**
+   * The build message.
+   */
   message?: string;
+  /**
+   * The logger level.
+   */
   buildLoggerLevel?: LoggerLevel;
+  /**
+   * Whether to freeze credentials.
+   */
   freezeCredentials: boolean;
+  /**
+   * Whether verbose logging is enabled.
+   */
   isVerboseLoggingEnabled?: boolean;
+  /**
+   * What to test.
+   */
   whatToTest?: string;
 }
 
+/**
+ * Run the build and submit process.
+ * @param graphqlClient The GraphQL client.
+ * @param analytics The analytics client.
+ * @param vcsClient The vcs client.
+ * @param projectDir The project directory.
+ * @param flags The build flags.
+ * @param actor The user.
+ * @param getDynamicPrivateProjectConfigAsync A function that returns the dynamic private project config.
+ * @param downloadSimBuildAutoConfirm Whether to automatically confirm the download of a simulator build.
+ * @param envOverride The environment variables override.
+ * @returns The build IDs and build profiles.
+ */
 export async function runBuildAndSubmitAsync({
   graphqlClient,
   analytics,
@@ -565,6 +626,10 @@ function exitWithNonZeroCodeIfSomeBuildsFailed(maybeBuilds: (BuildFragment | nul
   }
 }
 
+/**
+ * Download and run a build.
+ * @param build The build to download and run.
+ */
 export async function downloadAndRunAsync(build: BuildFragment): Promise<void> {
   assert(build.artifacts?.applicationArchiveUrl);
   const cachedAppPath = getEasBuildRunCachedAppPath(build.project.id, build.id, build.platform);

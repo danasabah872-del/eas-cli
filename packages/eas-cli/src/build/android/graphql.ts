@@ -10,6 +10,11 @@ import {
 } from '../graphql';
 import { buildProfileEnvironmentToEnvironment } from '../utils/environment';
 
+/**
+ * Transform the Android job to a GraphQL input.
+ * @param job The Android job.
+ * @returns The GraphQL input.
+ */
 export function transformJob(job: Android.Job): AndroidJobInput {
   return {
     type: transformWorkflow(job.type),

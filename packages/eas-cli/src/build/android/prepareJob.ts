@@ -25,6 +25,12 @@ const cacheDefaults = {
   paths: [],
 };
 
+/**
+ * Prepare the Android job.
+ * @param ctx The build context.
+ * @param jobData The job data.
+ * @returns The Android job.
+ */
 export async function prepareJobAsync(
   ctx: BuildContext<Platform.ANDROID>,
   jobData: JobData

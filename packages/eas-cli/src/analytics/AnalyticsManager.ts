@@ -15,10 +15,16 @@ const PLATFORM_TO_ANALYTICS_PLATFORM: Partial<Record<NodeJS.Platform, string>> =
 
 export type AnalyticsEvent = CommandEvent | BuildEvent | SubmissionEvent | MetadataEvent;
 
+/**
+ * Analytics events related to generic commands.
+ */
 export enum CommandEvent {
   ACTION = 'action', // generic event type which is used to determine the 'daily active user' stat, include an `action: eas ${subcommand}` property inside of the event properties object
 }
 
+/**
+ * Analytics events related to the submission process.
+ */
 export enum SubmissionEvent {
   SUBMIT_COMMAND = 'submit cli submit command',
   SUBMIT_COMMAND_ATTEMPT = 'submit cli attempt',
@@ -38,6 +44,9 @@ export enum SubmissionEvent {
   API_KEY_DOWNLOAD_SUCCESS = 'submit cli credentials api key download succeed',
 }
 
+/**
+ * Analytics events related to the build process.
+ */
 export enum BuildEvent {
   BUILD_COMMAND = 'build cli build command',
   PROJECT_UPLOAD_ATTEMPT = 'build cli project upload attempt',
@@ -66,17 +75,28 @@ export enum BuildEvent {
   ANDROID_KEYSTORE_CREATE = 'build cli credentials keystore create',
 }
 
+/**
+ * Analytics events related to the metadata process.
+ */
 export enum MetadataEvent {
   APPLE_METADATA_DOWNLOAD = 'metadata cli download apple response',
   APPLE_METADATA_UPLOAD = 'metadata cli upload apple response',
 }
 
+/**
+ * A generic properties object for analytics events.
+ */
 export type AnalyticsEventProperties = Record<string, string | number | boolean>;
 
 /**
  * The interface for commands to use to log events to analytics.
  */
 export interface Analytics {
+  /**
+   * Log an event to analytics.
+   * @param name The name of the event.
+   *, @param properties A JSON object of properties to log with the event.
+   */
   logEvent(name: AnalyticsEvent, properties: AnalyticsEventProperties): void;
 }
 
@@ -85,7 +105,15 @@ export interface Analytics {
  * this within EASCommand.
  */
 export interface AnalyticsWithOrchestration extends Analytics {
+  /**
+   * Set the actor to be used for all analytics events.
+   * @param actor The actor to set.
+   */
   setActor(actor: Actor): void;
+
+  /**
+   * Flush any buffered analytics events.
+   */
   flushAsync(): Promise<void>;
 }
 
@@ -104,6 +132,7 @@ export async function setAnalyticsEnabledAsync(enabled: boolean): Promise<void> 
 
 /**
  * Returns the user's analytics enabled preference.
+ * @returns A boolean indicating whether analytics are enabled.
  */
 export async function getAnalyticsEnabledAsync(): Promise<boolean> {
   const analyticsEnabled = await UserSettings.getAsync(USER_SETTINGS_KEY_ANALYTICS_ENABLED, null);
@@ -112,6 +141,7 @@ export async function getAnalyticsEnabledAsync(): Promise<boolean> {
 
 /**
  * Create an instance of Analytics based on the user's analytics enabled preferences.
+ * @returns An instance of AnalyticsWithOrchestration.
  */
 export async function createAnalyticsAsync(): Promise<AnalyticsWithOrchestration> {
   // TODO: remove after some time
@@ -151,6 +181,9 @@ export async function createAnalyticsAsync(): Promise<AnalyticsWithOrchestration
   return new RudderstackAnalytics(deviceId);
 }
 
+/**
+ * A no-op implementation of Analytics that does nothing.
+ */
 class NoOpAnalytics implements AnalyticsWithOrchestration {
   logEvent(): void {}
   setActor(): void {}

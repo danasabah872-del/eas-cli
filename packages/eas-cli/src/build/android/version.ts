@@ -28,6 +28,12 @@ export enum BumpStrategy {
   NOOP,
 }
 
+/**
+ * Bump the version of the Android app.
+ * @param bumpStrategy The bump strategy.
+ * @param projectDir The project directory.
+ * @param exp The Expo config.
+ */
 export async function bumpVersionAsync({
   bumpStrategy,
   projectDir,
@@ -61,6 +67,12 @@ export async function bumpVersionAsync({
   Log.log('Synchronized versions with build gradle');
 }
 
+/**
+ * Bump the version of the Android app in app.json.
+ * @param bumpStrategy The bump strategy.
+ * @param projectDir The project directory.
+ * @param exp The Expo config.
+ */
 export async function bumpVersionInAppJsonAsync({
   bumpStrategy,
   projectDir,
@@ -94,6 +106,14 @@ export async function bumpVersionInAppJsonAsync({
   }
 }
 
+/**
+ * Resolve the versions of the Android app.
+ * @param projectDir The project directory.
+ * @param exp The Expo config.
+ * @param buildProfile The build profile.
+ * @param vcsClient The vcs client.
+ * @returns The app version, app build version, and whether the version is initialized.
+ */
 export async function maybeResolveVersionsAsync(
   projectDir: string,
   exp: ExpoConfig,
@@ -130,6 +150,12 @@ export async function maybeResolveVersionsAsync(
   }
 }
 
+/**
+ * Update the native versions of the Android app.
+ * @param projectDir The project directory.
+ * @param version The app version.
+ * @param versionCode The app version code.
+ */
 export async function updateNativeVersionsAsync({
   projectDir,
   version,
@@ -179,8 +205,15 @@ async function writeBuildGradleAsync({
 }
 
 /**
- * Returns buildNumber that will be used for the next build. If current build profile
- * has an 'autoIncrement' option set, it increments the version on server.
+ * Resolve the remote version code of the Android app.
+ * @param graphqlClient The GraphQL client.
+ * @param projectDir The project directory.
+ * @param projectId The project ID.
+ * @param exp The Expo config.
+ * @param applicationId The application ID.
+ * @param buildProfile The build profile.
+ * @param vcsClient The vcs client.
+ * @returns The remote version code.
  */
 export async function resolveRemoteVersionCodeAsync(
   graphqlClient: ExpoGraphqlClient,

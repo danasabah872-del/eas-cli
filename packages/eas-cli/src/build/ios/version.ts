@@ -31,6 +31,13 @@ export enum BumpStrategy {
   NOOP,
 }
 
+/**
+ * Bump the version of the iOS app.
+ * @param bumpStrategy The bump strategy.
+ * @param projectDir The project directory.
+ * @param exp The Expo config.
+ * @param targets The targets.
+ */
 export async function bumpVersionAsync({
   bumpStrategy,
   projectDir,

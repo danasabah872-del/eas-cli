@@ -14,6 +14,8 @@ export const AndroidSubmitProfileSchema = Joi.object({
    * The release track for the submission.
    */
   releaseTrack: Joi.string().valid(...Object.values(AndroidReleaseTrack)),
+  track: Joi.string().valid(...Object.values(AndroidReleaseTrack)),
+  rollout: Joi.number().min(0).max(1),
   /**
    * A boolean indicating whether to send the changes for review.
    */
@@ -60,6 +62,10 @@ export const IosSubmitProfileSchema = Joi.object({
    * The app name.
    */
   appName: Joi.string(),
+  ascApiKeyPath: Joi.string(),
+  ascApiKeyIssuerId: Joi.string(),
+  ascApiKeyId: Joi.string(),
+  groups: Joi.array().items(Joi.string()),
 });
 
 /**

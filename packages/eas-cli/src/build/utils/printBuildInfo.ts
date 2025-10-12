@@ -41,6 +41,10 @@ const errorCodeToErrorMessageOverride: Record<string, (build: BuildFragment) => 
     )} phase for more information.`,
 };
 
+/**
+ * Print the logs URLs for the given builds.
+ * @param builds The builds to print the logs URLs for.
+ */
 export function printLogsUrls(builds: BuildFragment[]): void {
   if (builds.length === 1) {
     Log.log(`See logs: ${link(getBuildLogsUrl(builds[0]))}`);
@@ -56,6 +60,10 @@ export function printLogsUrls(builds: BuildFragment[]): void {
   }
 }
 
+/**
+ * Print the results of the given builds.
+ * @param builds The builds to print the results for.
+ */
 export function printBuildResults(builds: (BuildFragment | null)[]): void {
   if (builds.length === 1) {
     const [build] = builds;
@@ -122,6 +130,10 @@ function printBuildResult(build: BuildFragment): void {
   }
 }
 
+/**
+ * Print the deprecation warnings for the given build.
+ * @param deprecationInfo The deprecation info.
+ */
 export function printDeprecationWarnings(deprecationInfo?: EasBuildDeprecationInfo | null): void {
   if (!deprecationInfo) {
     return;
@@ -139,6 +151,11 @@ export function printDeprecationWarnings(deprecationInfo?: EasBuildDeprecationIn
   }
 }
 
+/**
+ * Print the user error for the given build.
+ * @param error The error.
+ * @param build The build.
+ */
 export function printUserError(error: BuildError, build: BuildFragment): void {
   const maybeErrorMessageOverride = maybeGetErrorMessageOverride(error, build);
   if (maybeErrorMessageOverride) {

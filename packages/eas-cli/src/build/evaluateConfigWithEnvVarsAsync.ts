@@ -7,6 +7,15 @@ import { EnvironmentVariableEnvironment } from '../graphql/generated';
 import { EnvironmentVariablesQuery } from '../graphql/queries/EnvironmentVariablesQuery';
 import Log, { learnMore } from '../log';
 
+/**
+ * Evaluate the build profile with environment variables.
+ * @param buildProfile The build profile.
+ * @param buildProfileName The name of the build profile.
+ * @param graphqlClient The GraphQL client.
+ * @param getProjectConfig A function that returns the project config.
+ * @param opts The options.
+ * @returns The project config with the environment variables.
+ */
 export async function evaluateConfigWithEnvVarsAsync<Config extends { projectId: string }, Opts>({
   buildProfile,
   buildProfileName,

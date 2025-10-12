@@ -25,6 +25,11 @@ import {
   WorkerLoggerLevel,
 } from '../graphql/generated';
 
+/**
+ * Transform the project archive source to a GraphQL input.
+ * @param archiveSource The project archive source.
+ * @returns The GraphQL input.
+ */
 export function transformProjectArchive(archiveSource: ArchiveSource): ProjectArchiveSourceInput {
   if (archiveSource.type === ArchiveSourceType.GCS) {
     return {
@@ -42,6 +47,11 @@ export function transformProjectArchive(archiveSource: ArchiveSource): ProjectAr
   }
 }
 
+/**
+ * Transform the build metadata to a GraphQL input.
+ * @param metadata The build metadata.
+ * @returns The GraphQL input.
+ */
 export function transformMetadata(metadata: Metadata): BuildMetadataInput {
   return {
     ...metadata,
@@ -57,6 +67,11 @@ export function transformMetadata(metadata: Metadata): BuildMetadataInput {
   };
 }
 
+/**
+ * Transform the fingerprint source to a GraphQL input.
+ * @param fingerprintSource The fingerprint source.
+ * @returns The GraphQL input.
+ */
 export function transformFingerprintSource(
   fingerprintSource: NonNullable<Metadata['fingerprintSource']>
 ): FingerprintSourceInput | null {
@@ -91,6 +106,11 @@ function transformDistribution(distribution: Metadata['distribution']): Distribu
   }
 }
 
+/**
+ * Transform the workflow to a GraphQL input.
+ * @param workflow The workflow.
+ * @returns The GraphQL input.
+ */
 export function transformWorkflow(workflow: Workflow): BuildWorkflow {
   if (workflow === Workflow.GENERIC) {
     return BuildWorkflow.Generic;
@@ -99,6 +119,11 @@ export function transformWorkflow(workflow: Workflow): BuildWorkflow {
   }
 }
 
+/**
+ * Transform the iOS enterprise provisioning to a GraphQL input.
+ * @param enterpriseProvisioning The iOS enterprise provisioning.
+ * @returns The GraphQL input.
+ */
 export function transformIosEnterpriseProvisioning(
   enterpriseProvisioning: Metadata['iosEnterpriseProvisioning']
 ): BuildIosEnterpriseProvisioning {
@@ -122,6 +147,11 @@ export function transformBuildMode(buildMode: BuildMode): GraphQLBuildMode {
   return graphQLBuildMode;
 }
 
+/**
+ * Transform the build trigger to a GraphQL input.
+ * @param buildTrigger The build trigger.
+ * @returns The GraphQL input.
+ */
 export function transformBuildTrigger(buildTrigger: BuildTrigger): GraphQLBuildTrigger {
   if (buildTrigger === BuildTrigger.EAS_CLI) {
     return GraphQLBuildTrigger.EasCli;
@@ -131,6 +161,9 @@ export function transformBuildTrigger(buildTrigger: BuildTrigger): GraphQLBuildT
   throw new Error('Unknown build trigger');
 }
 
+/**
+ * A map of logger levels to GraphQL worker logger levels.
+ */
 export const loggerLevelToGraphQLWorkerLoggerLevel: Record<LoggerLevel, WorkerLoggerLevel> = {
   [LoggerLevel.TRACE]: WorkerLoggerLevel.Trace,
   [LoggerLevel.DEBUG]: WorkerLoggerLevel.Debug,

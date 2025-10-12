@@ -14,6 +14,11 @@ interface ConfigureParams {
   vcsClient: Client;
 }
 
+/**
+ * Check if eas.json exists in the project directory.
+ * @param projectDir The project directory.
+ * @returns A boolean indicating whether eas.json exists.
+ */
 export async function easJsonExistsAsync(projectDir: string): Promise<boolean> {
   return await fs.pathExists(EasJsonAccessor.formatEasJsonPath(projectDir));
 }
@@ -21,9 +26,8 @@ export async function easJsonExistsAsync(projectDir: string): Promise<boolean> {
 /**
  * Creates eas.json if it does not exist.
  *
- * Returns:
- * - false - if eas.json already exists
- * - true - if eas.json was created by the function
+ * @param configureParams The configuration parameters.
+ * @returns A boolean indicating whether eas.json was created.
  */
 export async function ensureProjectConfiguredAsync(
   configureParams: ConfigureParams
@@ -53,6 +57,12 @@ async function configureAsync({
   }
 }
 
+/**
+ * Check if a build profile exists in eas.json.
+ * @param projectDir The project directory.
+ * @param profileName The name of the build profile.
+ * @returns A boolean indicating whether the build profile exists.
+ */
 export async function doesBuildProfileExistAsync({
   projectDir,
   profileName,
@@ -73,6 +83,14 @@ export async function doesBuildProfileExistAsync({
   }
 }
 
+/**
+ * Create a new build profile in eas.json.
+ * @param projectDir The project directory.
+ * @param profileName The name of the build profile.
+ * @param profileContents The contents of the build profile.
+ * @param vcsClient The vcs client.
+ * @param nonInteractive A boolean indicating whether to run in non-interactive mode.
+ */
 export async function createBuildProfileAsync({
   projectDir,
   profileName,

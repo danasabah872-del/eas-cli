@@ -1,8 +1,5 @@
 import chalk from 'chalk';
 
-/**
- * A base class for named errors.
- */
 class NamedError extends Error {
   constructor(message?: string) {
     super(message);
@@ -10,9 +7,6 @@ class NamedError extends Error {
   }
 }
 
-/**
- * An error that is thrown when `eas.json` is invalid.
- */
 export class InvalidEasJsonError extends NamedError {}
 
 /**

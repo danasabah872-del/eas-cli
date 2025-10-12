@@ -13,6 +13,13 @@ import { expoCommandAsync } from '../../utils/expoCli';
 import { ProfileData } from '../../utils/profiles';
 import { Client } from '../../vcs/vcs';
 
+/**
+ * Ensure that the expo-dev-client is installed for dev client builds.
+ * @param projectDir The project directory.
+ * @param vcsClient The vcs client.
+ * @param nonInteractive Whether to run in non-interactive mode.
+ * @param buildProfiles The build profiles.
+ */
 export async function ensureExpoDevClientInstalledForDevClientBuildsAsync({
   projectDir,
   vcsClient,

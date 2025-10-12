@@ -22,6 +22,11 @@ import {
   validatePNGsForManagedProjectAsync,
 } from '../validate';
 
+/**
+ * Create the iOS build context.
+ * @param ctx The build context.
+ * @returns The iOS build context.
+ */
 export async function createIosContextAsync(
   ctx: CommonContext<Platform.IOS>
 ): Promise<IosBuildContext> {
@@ -73,6 +78,11 @@ export async function createIosContextAsync(
   };
 }
 
+/**
+ * Prepare the iOS build.
+ * @param ctx The build context.
+ * @returns The build request sender.
+ */
 export async function prepareIosBuildAsync(
   ctx: BuildContext<Platform.IOS>
 ): Promise<BuildRequestSender> {

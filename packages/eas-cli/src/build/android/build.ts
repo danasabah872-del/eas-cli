@@ -95,6 +95,11 @@ This means that it will most likely produce an AAB and you will not be able to i
   return { applicationId, gradleContext, versionCodeOverride };
 }
 
+/**
+ * Prepare the Android build.
+ * @param ctx The build context.
+ * @returns The build request sender.
+ */
 export async function prepareAndroidBuildAsync(
   ctx: BuildContext<Platform.ANDROID>
 ): Promise<BuildRequestSender> {
@@ -174,6 +179,11 @@ async function ensureAndroidCredentialsAsync(
   };
 }
 
+/**
+ * Warn the user if they are using a non-standard build type.
+ * @param buildProfile The build profile.
+ * @param buildType The build type.
+ */
 export function maybeWarnAboutNonStandardBuildType({
   buildProfile,
   buildType,

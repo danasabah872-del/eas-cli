@@ -11,6 +11,11 @@ import {
 } from '../graphql';
 import { buildProfileEnvironmentToEnvironment } from '../utils/environment';
 
+/**
+ * Transform the iOS job to a GraphQL input.
+ * @param job The iOS job.
+ * @returns The GraphQL input.
+ */
 export function transformJob(job: Ios.Job): IosJobInput {
   return {
     type: transformWorkflow(job.type),

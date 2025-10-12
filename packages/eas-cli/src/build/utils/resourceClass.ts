@@ -28,6 +28,13 @@ const androidResourceClassToBuildResourceClassMapping: Record<
   [ResourceClass.MEDIUM]: BuildResourceClass.AndroidMedium,
 };
 
+/**
+ * Resolve the build resource class for a build.
+ * @param profile The build profile.
+ * @param platform The platform.
+ * @param resourceClassFlag The resource class flag.
+ * @returns The build resource class.
+ */
 export async function resolveBuildResourceClassAsync<T extends Platform>(
   profile: BuildProfile<T>,
   platform: Platform,

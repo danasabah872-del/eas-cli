@@ -14,20 +14,19 @@ interface EasJsonDeprecationWarning {
   docsUrl?: string;
 }
 
-/**
- * A class of utilities for working with `eas.json`.
- */
 export class EasJsonUtils {
-  /**
-   * Gets the names of all build profiles.
-   * @param accessor - The `EasJsonAccessor` instance.
-   * @returns The names of all build profiles.
-   */
   public static async getBuildProfileNamesAsync(accessor: EasJsonAccessor): Promise<string[]> {
     const easJson = await accessor.readAsync();
     return Object.keys(easJson?.build ?? {});
   }
 
+  /**
+   * Gets a build profile.
+   * @param accessor - The `EasJsonAccessor` instance.
+   * @param platform - The platform.
+   * @param profileName - The name of the profile.
+   * @returns The build profile.
+   */
   public static async getBuildProfileAsync<T extends Platform>(
     accessor: EasJsonAccessor,
     platform: T,
@@ -37,6 +36,13 @@ export class EasJsonUtils {
     return resolveBuildProfile({ easJson, platform, profileName });
   }
 
+  /**
+   * Gets the deprecation warnings for a build profile.
+   * @param easJsonAccessor - The `EasJsonAccessor` instance.
+   * @param platform - The platform.
+   * @param profileName - The name of the profile.
+   * @returns The deprecation warnings.
+   */
   public static async getBuildProfileDeprecationWarningsAsync(
     easJsonAccessor: EasJsonAccessor,
     platform: Platform,
@@ -98,6 +104,11 @@ export class EasJsonUtils {
     return warnings;
   }
 
+  /**
+   * Gets the CLI configuration.
+   * @param accessor - The `EasJsonAccessor` instance.
+   * @returns The CLI configuration.
+   */
   public static async getCliConfigAsync(accessor: EasJsonAccessor): Promise<EasJson['cli'] | null> {
     try {
       const easJson = await accessor.readAsync();
@@ -110,11 +121,23 @@ export class EasJsonUtils {
     }
   }
 
+  /**
+   * Gets the names of all submit profiles.
+   * @param accessor - The `EasJsonAccessor` instance.
+   *   @returns The names of all submit profiles.
+   */
   public static async getSubmitProfileNamesAsync(accessor: EasJsonAccessor): Promise<string[]> {
     const easJson = await accessor.readAsync();
     return Object.keys(easJson?.submit ?? {});
   }
 
+  /**
+   * Gets a submit profile.
+   * @param accessor - The `EasJsonAccessor` instance.
+   * @param platform - The platform.
+   * @param profileName - The name of the profile.
+   * @returns The submit profile.
+   */
   public static async getSubmitProfileAsync<T extends Platform>(
     accessor: EasJsonAccessor,
     platform: T,

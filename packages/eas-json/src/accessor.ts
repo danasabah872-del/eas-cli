@@ -38,10 +38,6 @@ const customErrorMessageHandlers: ((err: ValidationError) => void)[] = [
   },
 ];
 
-/**
- * A class to read, write, and patch `eas.json`.
- * It supports both JSON and JSON5 formats.
- */
 export class EasJsonAccessor {
   private easJsonPath: string | undefined;
 
@@ -157,10 +153,6 @@ export class EasJsonAccessor {
     this.easJsonPatched = true;
   }
 
-  /**
-   * Reads the raw `eas.json` from the file system.
-   * @returns The raw contents of `eas.json`.
-   */
   public async readRawJsonAsync(): Promise<any> {
     if (this.easJsonPath) {
       if (!(await fs.pathExists(this.easJsonPath))) {

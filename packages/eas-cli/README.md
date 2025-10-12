@@ -10,6 +10,8 @@ This is a Lerna monorepo containing the following packages:
 -   **`@expo/eas-json`**: A library for reading, writing, and validating `eas.json`, the configuration file for EAS CLI.
 -   **`eas-build-cache-provider`**: A build cache provider plugin for the Expo CLI to speed up local builds by using EAS's remote build cache.
 
+This repository is a comprehensive resource for developers who want to understand how EAS CLI works, contribute to its development, or use its packages in their own projects.
+
 ## Getting Started
 
 ### Prerequisites
@@ -48,7 +50,7 @@ To run the test suite for all packages, run the following command from the root 
 yarn test
 ```
 
-## Usage
+## Development
 
 To run the local version of EAS CLI, you can use the following command from the root of the repository:
 
@@ -61,6 +63,16 @@ For example, to view the help for the `build` command:
 ```bash
 packages/eas-cli/bin/run build --help
 ```
+
+### Debugging
+
+To debug the CLI, you can use the following command:
+
+```bash
+node --inspect-brk packages/eas-cli/bin/run <command>
+```
+
+Then, open `chrome://inspect` in your browser and click on the "Open dedicated DevTools for Node" link.
 
 ## Contributing
 

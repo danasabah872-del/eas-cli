@@ -25,6 +25,18 @@ import {
 
 export const BRANCHES_LIMIT = 50;
 
+/**
+ * Select a branch from a list of branches for a project.
+ * @param graphqlClient the graphql client
+ * ' @param projectId the project id
+ * @param promptTitle the title of the prompt
+ * @param displayTextForListItem a function that returns the text to display for each item in the list
+ * @param paginatedQueryOptions pagination options
+ * @returns the selected branch
+ * @throws Error if unable to select a branch in non-interactive mode
+ * @throws Error if no branches are found
+ *
+ */
 export async function selectBranchOnAppAsync(
   graphqlClient: ExpoGraphqlClient,
   {
@@ -60,6 +72,12 @@ export async function selectBranchOnAppAsync(
   return selectedBranch;
 }
 
+/**
+ * List and render branches for a project.
+ * @param graphqlClient the graphql client
+ * @param projectId the project id
+ * @param paginatedQueryOptions pagination options
+ */
 export async function listAndRenderBranchesOnAppAsync(
   graphqlClient: ExpoGraphqlClient,
   {
@@ -125,6 +143,14 @@ function renderPageOfBranches(
   }
 }
 
+/**
+ * Create a new branch for a project.
+ * @param graphqlClient the graphql client
+ * @param appId the project id
+ * @param name the name of the branch
+ * @returns the new branch
+ * @throws Error if the branch could not be created
+ */
 export async function createUpdateBranchOnAppAsync(
   graphqlClient: ExpoGraphqlClient,
   { appId, name }: CreateUpdateBranchForAppMutationVariables
@@ -158,6 +184,13 @@ export async function createUpdateBranchOnAppAsync(
   return newBranch;
 }
 
+/**
+ * Ensure a branch exists for a project, creating it if it doesn't.
+ * @param graphqlClient the graphql client
+ * @param appId the project id
+ * @param branchName the name of the branch
+ * @returns an object with the branch and a boolean indicating if it was created
+ */
 export async function ensureBranchExistsAsync(
   graphqlClient: ExpoGraphqlClient,
   {
