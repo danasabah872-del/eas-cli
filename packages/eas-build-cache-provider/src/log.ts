@@ -6,19 +6,9 @@ import terminalLink from 'terminal-link';
 
 type Color = (...text: string[]) => string;
 
-/**
- * A custom logger class.
- */
 export default class Log {
-  /**
-   * A boolean indicating whether debug logging is enabled.
-   */
   public static readonly isDebug = boolish('EXPO_DEBUG', false);
 
-  /**
-   * Logs a message to the console.
-   * @param args - The arguments to log.
-   */
   public static log(...args: any[]): void {
     Log.consoleLog(...args);
   }
@@ -96,12 +86,6 @@ export default class Log {
   }
 }
 
-/**
- * Prints a link for given URL, using text if provided, otherwise text is just the URL.
- * Format links as dim (unless disabled) and with an underline.
- *
- * @example https://expo.dev
- */
 export function link(
   url: string,
   { text = url, fallback, dim = true }: { text?: string; dim?: boolean; fallback?: string } = {}
@@ -114,12 +98,6 @@ export function link(
   return dim ? chalk.dim(output) : output;
 }
 
-/**
- * Provide a consistent "Learn more" link experience.
- * Format links as dim (unless disabled) with an underline.
- *
- * @example Learn more: https://expo.dev
- */
 export function learnMore(
   url: string,
   {

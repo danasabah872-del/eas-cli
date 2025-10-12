@@ -22,6 +22,32 @@ import { resolveWorkflowAsync } from '../project/workflow';
 import { Actor } from '../user/User';
 import { Client } from '../vcs/vcs';
 
+/**
+ * Create a build context for a specific platform.
+ * @param buildProfileName The name of the build profile.
+ * @param buildProfile The build profile.
+ * @param easJsonCliConfig The EAS JSON CLI configuration.
+ * @param clearCache Whether to clear the cache before building.
+ * @param localBuildOptions The local build options.
+ * @param nonInteractive Whether to run in non-interactive mode.
+ * @param noWait Whether to exit immediately after starting the build.
+ * @param platform The platform to build for.
+ * @param projectDir The project directory.
+ * @param resourceClassFlag The resource class to use for the build.
+ * @param message The build message.
+ * @param actor The user.
+ * @param graphqlClient The GraphQL client.
+ * @param analytics The analytics client.
+ * @param vcsClient The vcs client.
+ * @param getDynamicPrivateProjectConfigAsync A function that returns the dynamic private project config.
+ * @param customBuildConfigMetadata The custom build configuration metadata.
+ * @param buildLoggerLevel The logger level.
+ * @param freezeCredentials Whether to freeze credentials.
+ * @param isVerboseLoggingEnabled Whether verbose logging is enabled.
+ * @param whatToTest What to test.
+ * @param env The environment variables.
+ * @returns The build context.
+ */
 export async function createBuildContextAsync<T extends Platform>({
   buildProfileName,
   buildProfile,

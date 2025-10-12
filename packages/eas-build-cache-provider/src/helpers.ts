@@ -16,6 +16,12 @@ export function isSpawnResultError(obj: any): obj is Error & SpawnResult {
   );
 }
 
+/**
+ * Checks if the current build is a dev client build.
+ * @param runOptions - The run options.
+ * @param projectRoot - The project root.
+ * @returns True if the current build is a dev client build, false otherwise.
+ */
 export function isDevClientBuild({
   runOptions,
   projectRoot,
@@ -37,6 +43,11 @@ export function isDevClientBuild({
   return true;
 }
 
+/**
+ * Checks if the project has a direct dev client dependency.
+ * @param projectRoot - The project root.
+ * @returns True if the project has a direct dev client dependency, false otherwise.
+ */
 export function hasDirectDevClientDependency(projectRoot: string): boolean {
   const { dependencies = {}, devDependencies = {} } = getPackageJson(projectRoot);
   return !!dependencies['expo-dev-client'] || !!devDependencies['expo-dev-client'];

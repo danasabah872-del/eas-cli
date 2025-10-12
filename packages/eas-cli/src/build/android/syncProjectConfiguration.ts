@@ -13,6 +13,14 @@ import { resolveWorkflowAsync } from '../../project/workflow';
 import { syncUpdatesConfigurationAsync } from '../../update/android/UpdatesModule';
 import { Client } from '../../vcs/vcs';
 
+/**
+ * Sync the project configuration.
+ * @param projectDir The project directory.
+ * @param exp The Expo config.
+ * @param localAutoIncrement The local auto increment strategy.
+ * @param vcsClient The vcs client.
+ * @param env The environment variables.
+ */
 export async function syncProjectConfigurationAsync({
   projectDir,
   exp,
@@ -53,6 +61,10 @@ function resolveVersionBumpStrategy(autoIncrement: AndroidVersionAutoIncrement):
 }
 
 // TODO: remove this after a few months
+/**
+ * Clean up the old eas-build.gradle script.
+ * @param projectDir The project directory.
+ */
 export async function cleanUpOldEasBuildGradleScriptAsync(projectDir: string): Promise<void> {
   const easBuildGradlePath = path.join(projectDir, 'android', 'app', 'eas-build.gradle');
   if (await fs.pathExists(easBuildGradlePath)) {

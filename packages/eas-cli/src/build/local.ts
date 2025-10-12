@@ -9,6 +9,9 @@ import { ora } from '../ora';
 const PLUGIN_PACKAGE_NAME = 'eas-cli-local-build-plugin';
 const PLUGIN_PACKAGE_VERSION = '1.0.171';
 
+/**
+ * The mode of the local build.
+ */
 export enum LocalBuildMode {
   /**
    * Local build that users can run on their own machines. Instead
@@ -27,16 +30,47 @@ export enum LocalBuildMode {
   INTERNAL = 'internal',
 }
 
+/**
+ * The options for a local build.
+ */
 export interface LocalBuildOptions {
+  /**
+   * The mode of the local build.
+   */
   localBuildMode?: LocalBuildMode;
+  /**
+   * Whether to skip cleanup after the build.
+   */
   skipCleanup?: boolean;
+  /**
+   * Whether to skip the native build.
+   */
   skipNativeBuild?: boolean;
+  /**
+   * The directory to save the artifacts to.
+   */
   artifactsDir?: string;
+  /**
+   * The path to the artifact.
+   */
   artifactPath?: string;
+  /**
+   * The working directory.
+   */
   workingdir?: string;
+  /**
+   * Whether to run in verbose mode.
+   */
   verbose?: boolean;
 }
 
+/**
+ * Run a local build.
+ * @param job The build job.
+ * @param metadata The build metadata.
+ * @param options The local build options.
+ * @param env The environment variables.
+ */
 export async function runLocalBuildAsync(
   job: Job,
   metadata: Metadata,

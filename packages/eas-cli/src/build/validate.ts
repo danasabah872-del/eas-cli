@@ -8,6 +8,10 @@ import { CommonContext } from './context';
 import Log, { learnMore } from '../log';
 import { isPNGAsync } from '../utils/image';
 
+/**
+ * Check if the NODE_ENV variable is set to "production" and warn the user if it is.
+ * @param ctx The build context.
+ */
 export function checkNodeEnvVariable(ctx: CommonContext<Platform>): void {
   if (ctx.env?.NODE_ENV === 'production') {
     Log.warn(
@@ -17,6 +21,10 @@ export function checkNodeEnvVariable(ctx: CommonContext<Platform>): void {
   }
 }
 
+/**
+ * Check if the google-services.json file is checked in to the repository and warn the user if it is not.
+ * @param ctx The build context.
+ */
 export async function checkGoogleServicesFileAsync<T extends Platform>(
   ctx: CommonContext<T>
 ): Promise<void> {
@@ -57,6 +65,10 @@ function isInsideDirectory(file: string, directory: string): boolean {
   return file.startsWith(directory);
 }
 
+/**
+ * Validate the PNG files for a managed project.
+ * @param ctx The build context.
+ */
 export async function validatePNGsForManagedProjectAsync<T extends Platform>(
   ctx: CommonContext<T>
 ): Promise<void> {

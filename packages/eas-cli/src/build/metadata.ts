@@ -17,6 +17,12 @@ import { readChannelSafelyAsync as readAndroidChannelSafelyAsync } from '../upda
 import { readChannelSafelyAsync as readIosChannelSafelyAsync } from '../update/ios/UpdatesModule';
 import { easCliVersion } from '../utils/easCli';
 
+/**
+ * Collect the metadata for a build.
+ * @param ctx The build context.
+ * @param runtimeAndFingerprintMetadata The runtime and fingerprint metadata.
+ * @returns The metadata.
+ */
 export async function collectMetadataAsync<T extends Platform>(
   ctx: BuildContext<T>,
   runtimeAndFingerprintMetadata: {
@@ -148,6 +154,11 @@ async function getNativeChannelAsync<T extends Platform>(
   return undefined;
 }
 
+/**
+ * Get the React Native version from the project directory.
+ * @param projectDir The project directory.
+ * @returns The React Native version, or undefined if it cannot be found.
+ */
 export async function getReactNativeVersionAsync(projectDir: string): Promise<string | undefined> {
   try {
     const reactNativePackageJsonPath = resolveFrom(projectDir, 'react-native/package.json');
@@ -165,6 +176,12 @@ function resolveIosEnterpriseProvisioning(
   return ctx.buildProfile.enterpriseProvisioning;
 }
 
+/**
+ * Truncate a git commit message to a specific length.
+ * @param msg The commit message.
+ * @param maxLength The maximum length of the commit message.
+ * @returns The truncated commit message.
+ */
 export function truncateGitCommitMessage(
   msg: string | undefined,
   maxLength: number = 4096

@@ -12,12 +12,6 @@ import path from 'path';
 import { isDevClientBuild, isSpawnResultError } from './helpers';
 import Log from './log';
 
-/**
- * Resolves the build cache for a given project and platform.
- * It checks for a build with a matching fingerprint on EAS servers and downloads it if found.
- * @param props - The properties for resolving the build cache.
- * @returns The path to the downloaded build cache, or null if not found.
- */
 async function resolveBuildCacheAsync({
   projectRoot,
   platform,
@@ -68,6 +62,11 @@ async function resolveBuildCacheAsync({
   }
 }
 
+/**
+ * Uploads the build cache for a given project and platform.
+ * @param props - The properties for uploading the build cache.
+ * @returns The URL of the uploaded build cache, or null if not found.
+ */
 async function uploadBuildCacheAsync({
   projectRoot,
   platform,
@@ -109,6 +108,11 @@ async function uploadBuildCacheAsync({
   return null;
 }
 
+/**
+ * Calculates the fingerprint hash for a given project and platform.
+ * @param props - The properties for calculating the fingerprint hash.
+ * @returns The fingerprint hash, or null if not found.
+ */
 async function calculateEASFingerprintHashAsync({
   projectRoot,
   platform,

@@ -10,6 +10,11 @@ import { link } from '../../log';
 import { appPlatformDisplayNames } from '../../platform';
 import formatFields from '../../utils/formatFields';
 
+/**
+ * Format a GraphQL build object.
+ * @param build The build to format.
+ * @returns A formatted string.
+ */
 export function formatGraphQLBuild(build: BuildFragment): string {
   const actor = getActorName(build);
   const fields: { label: string; value?: string | null }[] = [

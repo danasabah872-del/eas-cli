@@ -73,24 +73,76 @@ import { printJsonOnlyOutput } from '../utils/json';
 import { createProgressTracker } from '../utils/progress';
 import { sleepAsync } from '../utils/promise';
 
+/**
+ * The result of a credentials request.
+ * @template Credentials The type of the credentials.
+ */
 export interface CredentialsResult<Credentials> {
+  /**
+   * The source of the credentials.
+   */
   source: CredentialsSource.LOCAL | CredentialsSource.REMOTE;
+  /**
+   * The credentials.
+   */
   credentials: Credentials;
 }
 
+/**
+ * The data for a build job.
+ * @template Credentials The type of the credentials.
+ */
 export interface JobData<Credentials> {
+  /**
+   * The credentials to use for the build.
+   */
   credentials?: Credentials;
+  /**
+   * The project archive to use for the build.
+   */
   projectArchive: ArchiveSource;
 }
 
+/**
+ * A builder for a specific platform.
+ * @template TPlatform The platform to build for.
+ * @template Credentials The type of the credentials.
+ * @template TJob The type of the build job.
+ */
 interface Builder<TPlatform extends Platform, Credentials, TJob extends BuildJob> {
+  /**
+   * The build context.
+   */
   ctx: BuildContext<TPlatform>;
 
+  /**
+   * Ensure that credentials are available for the build.
+   * @param ctx The build context.
+   * @returns The credentials, or undefined if no credentials are required.
+   */
   ensureCredentialsAsync(
     ctx: BuildContext<TPlatform>
   ): Promise<CredentialsResult<Credentials> | undefined>;
+  /**
+   * Sync the project configuration with the EAS Build service.
+   * @param ctx The build context.
+   */
   syncProjectConfigurationAsync(ctx: BuildContext<TPlatform>): Promise<void>;
+  /**
+   * Prepare the build job.
+   * @param ctx The build context.
+   * @param jobData The job data.
+   * @returns The build job.
+   */
   prepareJobAsync(ctx: BuildContext<TPlatform>, jobData: JobData<Credentials>): Promise<BuildJob>;
+  /**
+   * Send the build request to the EAS Build service.
+   * @param appId The ID of the app to build.
+   * @param job The build job.
+   * @param metadata The build metadata.
+   * @param buildParams The build parameters.
+   * @returns The build result.
+   */
   sendBuildRequestAsync(
     appId: string,
     job: TJob,
@@ -99,6 +151,9 @@ interface Builder<TPlatform extends Platform, Credentials, TJob extends BuildJob
   ): Promise<BuildResult>;
 }
 
+/**
+ * A function that sends a build request to the EAS Build service.
+ */
 export type BuildRequestSender = () => Promise<BuildFragment | undefined>;
 
 function resolveBuildParamsInput<T extends Platform>(
@@ -112,6 +167,11 @@ function resolveBuildParamsInput<T extends Platform>(
   };
 }
 
+/**
+ * Prepare a build request for a specific platform.
+ * @param builder The builder for the platform.
+ * @returns A function that sends the build request.
+ */
 export async function prepareBuildRequestForPlatformAsync<
   TPlatform extends Platform,
   Credentials,
@@ -222,6 +282,12 @@ const SERVER_SIDE_DEFINED_ERRORS: Record<string, typeof EasCommandError> = {
   VALIDATION_ERROR: RequestValidationError,
 };
 
+/**
+ * Handle a build request error.
+ * This function will throw an error, so it never returns.
+ * @param error The error to handle.
+ * @param platform The platform the build was for.
+ */
 export function handleBuildRequestError(error: any, platform: Platform): never {
   Log.debug(JSON.stringify(error.graphQLErrors, null, 2));
 
@@ -394,6 +460,14 @@ async function sendBuildRequestAsync<
 
 export type MaybeBuildFragment = BuildFragment | null;
 
+/**
+ * Wait for a build to complete.
+ * @param graphqlClient The graphql client.
+ * @param buildIds The IDs of the builds to wait for.
+ * @param accountName The name of the account the builds belong to.
+ * @param intervalSec The interval to poll for build status.
+ * @returns The completed builds.
+ */
 export async function waitForBuildEndAsync(
   graphqlClient: ExpoGraphqlClient,
   { buildIds, accountName }: { buildIds: string[]; accountName: string },

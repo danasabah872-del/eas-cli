@@ -7,6 +7,10 @@ import { updateAppJsonConfigAsync } from './appJson';
 import Log from '../../log';
 import { promptAsync } from '../../prompts';
 
+/**
+ * Ensure that the static config exists.
+ * @param projectDir The project directory.
+ */
 export function ensureStaticConfigExists(projectDir: string): void {
   const paths = getConfigFilePaths(projectDir);
   if (!paths.staticConfigPath) {
@@ -14,6 +18,12 @@ export function ensureStaticConfigExists(projectDir: string): void {
   }
 }
 
+/**
+ * Bump the app version.
+ * @param appVersion The current app version.
+ * @param projectDir The project directory.
+ * @param exp The Expo config.
+ */
 export async function bumpAppVersionAsync({
   appVersion,
   projectDir,

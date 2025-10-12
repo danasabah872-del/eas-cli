@@ -9,6 +9,12 @@ import { CredentialsResult } from '../build';
 import { BuildContext } from '../context';
 import { logCredentialsSource } from '../utils/credentials';
 
+/**
+ * Ensure the iOS credentials are set up.
+ * @param buildCtx The build context.
+ * @param targets The targets.
+ * @returns The credentials, or undefined if they are not needed.
+ */
 export async function ensureIosCredentialsAsync(
   buildCtx: BuildContext<Platform.IOS>,
   targets: Target[]
@@ -33,6 +39,13 @@ export async function ensureIosCredentialsAsync(
   };
 }
 
+/**
+ * Ensure the iOS credentials are set up for a build resign.
+ * @param credentialsCtx The credentials context.
+ * @param targets The targets.
+ * @param buildProfile The build profile.
+ * @returns The credentials.
+ */
 export async function ensureIosCredentialsForBuildResignAsync(
   credentialsCtx: CredentialsContext,
   targets: Target[],

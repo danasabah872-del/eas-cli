@@ -12,6 +12,11 @@ import { getTmpDirectory } from '../../utils/paths';
 import { endTimer, formatMilliseconds, startTimer } from '../../utils/timer';
 import { Client } from '../../vcs/vcs';
 
+/**
+ * Bail out of the command if the repository is dirty.
+ * @param vcsClient The vcs client.
+ * @param nonInteractive Whether to run in non-interactive mode.
+ */
 export async function maybeBailOnRepoStatusAsync(
   vcsClient: Client,
   nonInteractive: boolean
@@ -40,6 +45,11 @@ export async function maybeBailOnRepoStatusAsync(
   }
 }
 
+/**
+ * Ensure the repository is clean.
+ * @param vcsClient The vcs client.
+ * @param nonInteractive Whether to run in non-interactive mode.
+ */
 export async function ensureRepoIsCleanAsync(
   vcsClient: Client,
   nonInteractive = false
@@ -120,6 +130,11 @@ export async function makeProjectMetadataFileAsync(archivePath: string): Promise
   return { path: metadataLocation, size: await fs.stat(metadataLocation).then(stat => stat.size) };
 }
 
+/**
+ * Create a tarball of the project.
+ * @param vcsClient The vcs client.
+ * @returns The path to the tarball.
+ */
 export async function makeProjectTarballAsync(vcsClient: Client): Promise<LocalFile> {
   const spinner = ora('Compressing project files');
 
@@ -169,6 +184,10 @@ export async function makeProjectTarballAsync(vcsClient: Client): Promise<LocalF
   return { size, path: tarPath };
 }
 
+/**
+ * Warn the user if the project tarball is too large.
+ * @param size The size of the tarball in bytes.
+ */
 export function maybeWarnAboutProjectTarballSize(size: number): void {
   if (size <= 150 /* MiB */ * 1024 /* KiB */ * 1024 /* B */) {
     return;
@@ -185,6 +204,10 @@ export function maybeWarnAboutProjectTarballSize(size: number): void {
 
 const MAX_ALLOWED_PROJECT_TARBALL_SIZE =
   2 /* GiB */ * 1024 /* MiB */ * 1024 /* KiB */ * 1024; /* B */
+/**
+ * Assert that the project tarball is not too large.
+ * @param size The size of the tarball in bytes.
+ */
 export function assertProjectTarballSizeDoesNotExceedLimit(size: number): void {
   if (size <= MAX_ALLOWED_PROJECT_TARBALL_SIZE) {
     return;
@@ -203,6 +226,13 @@ enum ShouldCommitChanges {
   Abort,
 }
 
+/**
+ * Review and commit the changes.
+ * @param vcsClient The vcs client.
+ * @param initialCommitMessage The initial commit message.
+ * @param nonInteractive Whether to run in non-interactive mode.
+ * @param askedFirstTime Whether this is the first time the user is asked.
+ */
 export async function reviewAndCommitChangesAsync(
   vcsClient: Client,
   initialCommitMessage: string,

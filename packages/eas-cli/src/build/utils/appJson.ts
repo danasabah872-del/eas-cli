@@ -2,6 +2,12 @@ import * as ExpoConfig from '@expo/config';
 import JsonFile from '@expo/json-file';
 import assert from 'assert';
 
+/**
+ * Update the app.json config.
+ * @param projectDir The project directory.
+ * @param exp The Expo config.
+ * @param modifyConfig A function that modifies the config.
+ */
 export async function updateAppJsonConfigAsync(
   {
     projectDir,

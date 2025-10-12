@@ -5,6 +5,11 @@ import chalk from 'chalk';
 import Log from '../../log';
 import { requestedPlatformDisplayNames } from '../../platform';
 
+/**
+ * Log the credentials source.
+ * @param credentialsSource The credentials source.
+ * @param platform The platform.
+ */
 export function logCredentialsSource(
   credentialsSource: CredentialsSource,
   platform: Platform

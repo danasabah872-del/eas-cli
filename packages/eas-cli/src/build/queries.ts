@@ -15,6 +15,14 @@ import {
 
 export const BUILDS_LIMIT = 50;
 
+/**
+ * List and render builds for an app.
+ * @param graphqlClient The GraphQL client.
+ * @param projectId The ID of the project.
+ * @param projectDisplayName The display name of the project.
+ * @param filter The build filter.
+ * @param paginatedQueryOptions The pagination options.
+ */
 export async function listAndRenderBuildsOnAppAsync(
   graphqlClient: ExpoGraphqlClient,
   {
@@ -58,6 +66,17 @@ export async function listAndRenderBuildsOnAppAsync(
   }
 }
 
+/**
+ * List and select a build for an app.
+ * @param graphqlClient The GraphQL client.
+ * @param projectId The ID of the project.
+ * @param title The title of the select prompt.
+ * @param filter The build filter.
+ * @param paginatedQueryOptions The pagination options.
+ * @param selectPromptDisabledFunction A function that returns whether a build should be disabled in the select prompt.
+ * @param selectPromptWarningMessage The warning message to display in the select prompt.
+ * @returns The selected build, or null if no build was selected.
+ */
 export async function listAndSelectBuildOnAppAsync(
   graphqlClient: ExpoGraphqlClient,
   {
@@ -150,6 +169,13 @@ function createBuildToPartialChoiceMaker(
   };
 }
 
+/**
+ * Get the latest build for an app.
+ * @param graphqlClient The GraphQL client.
+ * @param projectId The ID of the project.
+ * @param filter The build filter.
+ * @returns The latest build, or null if there are no builds.
+ */
 export async function getLatestBuildAsync(
   graphqlClient: ExpoGraphqlClient,
   {

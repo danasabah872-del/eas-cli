@@ -9,6 +9,15 @@ import { resolveWorkflowAsync } from '../../project/workflow';
 import { syncUpdatesConfigurationAsync } from '../../update/ios/UpdatesModule';
 import { Client } from '../../vcs/vcs';
 
+/**
+ * Sync the project configuration.
+ * @param projectDir The project directory.
+ * @param exp The Expo config.
+ * @param targets The targets.
+ * @param localAutoIncrement The local auto increment strategy.
+ * @param vcsClient The vcs client.
+ * @param env The environment variables.
+ */
 export async function syncProjectConfigurationAsync({
   projectDir,
   exp,
