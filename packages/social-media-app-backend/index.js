@@ -18,38 +18,83 @@ app.get('/', (req, res) => {
   res.send('Social Media Aggregator Backend is running!');
 });
 
-// Placeholder for TikTok authentication endpoint
 app.post('/auth/tiktok', async (req, res) => {
-  // The frontend will send an authorization code, which we'll exchange for an access token.
-  // This is a simplified placeholder.
-  const { code } = req.body;
+  const { code, redirectUri } = req.body;
 
   if (!code) {
-    return res.status(400).send("Authorization code is missing.");
+    return res.status(400).send('Authorization code is missing.');
+  }
+  if (!redirectUri) {
+    return res.status(400).send('Redirect URI is missing.');
   }
 
-  // In a real implementation, you would:
-  // 1. Exchange the code for an access token from TikTok.
-  // 2. Use the access token to get user info from TikTok's API.
-  // 3. Find or create a user in your database.
-  // 4. Create a JWT and send it back to the client.
+  const TIKTOK_CLIENT_KEY = process.env.TIKTOK_CLIENT_KEY;
+  const TIKTOK_CLIENT_SECRET = process.env.TIKTOK_CLIENT_SECRET;
 
-  // For now, we'll simulate a successful login.
-  const mockTikTokUser = {
-    id: 'tiktok-user-123',
-    username: 'tiktok_user',
-  };
+  if (!TIKTOK_CLIENT_KEY || !TIKTOK_CLIENT_SECRET) {
+    console.error('TikTok client key or secret is not configured in environment variables.');
+    return res.status(500).send('Server configuration error.');
+  }
 
-  const user = {
-    id: `user-${users.length + 1}`,
-    tiktokId: mockTikTokUser.id,
-    username: mockTikTokUser.username,
-  };
-  users.push(user);
+  try {
+    // 1. Exchange authorization code for access token
+    const tokenResponse = await axios.post(
+      'https://open.tiktokapis.com/v2/oauth/token/',
+      new URLSearchParams({
+        client_key: TIKTOK_CLIENT_KEY,
+        client_secret: TIKTOK_CLIENT_SECRET,
+        code: code,
+        grant_type: 'authorization_code',
+        redirect_uri: redirectUri,
+      }).toString(),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
 
-  const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+    const { access_token, open_id } = tokenResponse.data;
 
-  res.json({ token });
+    if (!access_token || !open_id) {
+      return res.status(400).send('Failed to retrieve access token from TikTok.');
+    }
+
+    // 2. Fetch user info from TikTok
+    const userResponse = await axios.get('https://open.tiktokapis.com/v2/user/info/', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+      params: {
+        fields: 'open_id,display_name,avatar_large',
+      },
+    });
+
+    const tikTokUser = userResponse.data.data.user;
+
+    // 3. Find or create a user in our system
+    let user = users.find(u => u.tiktokId === tikTokUser.open_id);
+
+    if (!user) {
+      user = {
+        id: `user-${users.length + 1}`,
+        tiktokId: tikTokUser.open_id,
+        username: tikTokUser.display_name,
+        avatar: tikTokUser.avatar_large,
+      };
+      users.push(user);
+    }
+
+    // 4. Create a JWT and send it back to the client
+    const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    res.json({ token });
+  } catch (error) {
+    console.error('Error during TikTok authentication:', error.response ? error.response.data : error.message);
+    res.status(500).send('An error occurred during TikTok authentication.');
+  }
 });
 
 // A temporary store for videos. Will include a createdAt timestamp.
